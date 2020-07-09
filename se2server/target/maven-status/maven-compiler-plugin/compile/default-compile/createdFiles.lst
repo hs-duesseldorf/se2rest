@@ -1,7 +1,0 @@
-org/hsd/inflab/server/entity/Person.class
-org/hsd/inflab/server/restcontroller/GenericRestController.class
-org/hsd/inflab/server/restcontroller/PersonController.class
-org/hsd/inflab/server/repository/BaseRepository.class
-org/hsd/inflab/server/repository/PersonRepository.class
-org/hsd/inflab/server/entity/AbstractEntity.class
-org/hsd/inflab/server/Application.class
