@@ -24,10 +24,16 @@ import org.json.JSONObject;
 public abstract class GenericRestService<M extends AbstractModel> {
     private final static String BASE_URL = "http://localhost:8080";
 
-    protected abstract String createResourceSuffixPath();
+    protected abstract String getResourceName();
+
+    protected abstract JSONObject createJSONObject(M m);
+
+    protected abstract JSONObject createJSONObjectWithId(M m);
+
+    protected abstract M createModelObjectFromJSONObject(JSONObject jsonObject);
 
     protected String createURL() {
-        return new String(BASE_URL + "/" + createResourceSuffixPath());
+        return new String(BASE_URL + "/" + getResourceName());
     }
 
     public boolean connectionIsWorking() {
@@ -86,7 +92,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
             }
             JSONArray jsonArray = new JSONArray(stringBuilder.toString());
             for (JSONObject jsonObject : getJSONObjectListFromJSONArray(jsonArray)) {
-                list.add(createMFromJSONObject(jsonObject));
+                list.add(createModelObjectFromJSONObject(jsonObject));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,10 +130,4 @@ public abstract class GenericRestService<M extends AbstractModel> {
             ;
         return jsonObjects;
     }
-
-    protected abstract JSONObject createJSONObject(M m);
-
-    protected abstract JSONObject createJSONObjectWithId(M m);
-
-    protected abstract M createMFromJSONObject(JSONObject jsonObject);
 }

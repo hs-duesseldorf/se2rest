@@ -22,7 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PersonService { // TODO: extend from generic abstract service
+public class PersonService {
 
     private final static String BASE_URL = "http://localhost:8080";
     private final static String URL = BASE_URL + "/" + "persons";

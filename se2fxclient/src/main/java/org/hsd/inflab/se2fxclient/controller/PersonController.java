@@ -3,7 +3,7 @@ package org.hsd.inflab.se2fxclient.controller;
 import java.util.List;
 
 import org.hsd.inflab.se2fxclient.model.Person;
-import org.hsd.inflab.se2fxclient.service.PersonService;
+import org.hsd.inflab.se2fxclient.service.PersonRestService;
 import org.hsd.inflab.se2fxclient.view.FxPerson;
 
 import javafx.fxml.FXML;
@@ -13,14 +13,14 @@ import javafx.scene.layout.VBox;
 
 public class PersonController {
 
-    PersonService personService;
+    PersonRestService personService;
 
     @FXML
     VBox personsVBox;
 
     @FXML
     private void initialize() {
-        personService = PersonService.getInstance();
+        personService = new PersonRestService();
         List<Person> persons = personService.readAll();
         if (personService.connectionIsWorking() == true && persons != null) {
             for (Person person : persons) {

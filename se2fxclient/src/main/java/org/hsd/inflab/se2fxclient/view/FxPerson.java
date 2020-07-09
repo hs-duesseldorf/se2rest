@@ -1,7 +1,7 @@
 package org.hsd.inflab.se2fxclient.view;
 
 import org.hsd.inflab.se2fxclient.model.Person;
-import org.hsd.inflab.se2fxclient.service.PersonService;
+import org.hsd.inflab.se2fxclient.service.PersonRestService;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -13,11 +13,11 @@ public class FxPerson extends HBox {
     private TextField name;
     private Button delete, OK;
     private Person person;
-    private PersonService personService;
+    private PersonRestService personService;
 
     public FxPerson(Person person, VBox parentVBox) {
         this.person = person;
-        personService = PersonService.getInstance();
+        personService = new PersonRestService();
         name = new TextField(this.person.getName());
         delete = new Button("delete");
         delete.setOnAction(e -> {
