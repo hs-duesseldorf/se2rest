@@ -138,6 +138,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
         request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             client.execute(request);
+            System.out.println("Deleted Entity with id: " + m.getId());
         } catch (IOException e) {
             e.printStackTrace();
         }
