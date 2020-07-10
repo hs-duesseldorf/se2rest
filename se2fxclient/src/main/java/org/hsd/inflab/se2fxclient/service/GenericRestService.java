@@ -109,6 +109,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
             stringEntity = new StringEntity(jsonPerson.toString());
             request.setEntity(stringEntity);
             client.execute(request);
+            System.out.println(jsonPerson.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
