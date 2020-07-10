@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -26,19 +25,6 @@ public class PersonService {
 
     private final static String BASE_URL = "http://localhost:8080";
     private final static String URL = BASE_URL + "/" + "persons";
-    private static PersonService instance = null;
-    private final List<Person> persons;
-
-    public static PersonService getInstance() {
-        if (instance == null) {
-            instance = new PersonService();
-        }
-        return instance;
-    }
-
-    private PersonService() {
-        persons = new CopyOnWriteArrayList<>();
-    }
 
     public boolean connectionIsWorking() {
         boolean connectionOK = false;
@@ -85,6 +71,7 @@ public class PersonService {
     public List<Person> readAll() {
         HttpGet request = new HttpGet(URL);
         HttpResponse response;
+        List<Person> persons = new ArrayList<>();
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             response = client.execute(request);
             BufferedReader bufferedReader = new BufferedReader(
@@ -96,12 +83,12 @@ public class PersonService {
             }
             JSONArray personsJSONArray = new JSONArray(stringBuilder.toString());
             for (JSONObject personJSONObject : getJSONObjectListFromJSONArray(personsJSONArray)) {
-                this.persons.add(new Person(personJSONObject.getString("name")));
+                persons.add(new Person(personJSONObject.getString("name")));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return this.persons;
+        return persons;
     }
 
     public void update(Person person) {
@@ -115,6 +102,7 @@ public class PersonService {
             stringEntity = new StringEntity(jsonPerson.toString());
             request.setEntity(stringEntity);
             client.execute(request);
+            System.out.println(jsonPerson.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,6 +113,7 @@ public class PersonService {
         request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             client.execute(request);
+            System.out.println("Deleted Entity with id: " + person.getId());
         } catch (IOException e) {
             e.printStackTrace();
         }

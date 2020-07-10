@@ -119,15 +119,15 @@ public abstract class GenericRestService<M extends AbstractModel> {
     }
 
     public void update(M m) {
-        JSONObject jsonPerson = createJSONObjectWithId(m);
+        JSONObject jsonObject = createJSONObjectWithId(m);
         HttpPut request = new HttpPut(url + "/" + m.getId());
         request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         StringEntity stringEntity;
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
-            stringEntity = new StringEntity(jsonPerson.toString());
+            stringEntity = new StringEntity(jsonObject.toString());
             request.setEntity(stringEntity);
             client.execute(request);
-            System.out.println(jsonPerson.toString());
+            System.out.println(jsonObject.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
