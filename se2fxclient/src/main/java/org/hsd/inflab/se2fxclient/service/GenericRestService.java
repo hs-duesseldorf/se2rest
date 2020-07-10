@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -22,7 +23,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public abstract class GenericRestService<M extends AbstractModel> {
-    private final static String BASE_URL = "http://localhost:8080";
+    
+    private static String baseUrl;
+    private static String url;
 
     protected abstract String getResourceName();
 
@@ -32,14 +35,19 @@ public abstract class GenericRestService<M extends AbstractModel> {
 
     protected abstract M createModelObjectFromJSONObject(JSONObject jsonObject);
 
-    protected String createURL() {
-        return new String(BASE_URL + "/" + getResourceName());
+    protected void createURL() {
+        loadProperties();
+        url = new String(baseUrl + "/" + getResourceName());
+    }
+
+    public GenericRestService() {
+        createURL();
     }
 
     public boolean connectionIsWorking() {
         boolean connectionOK = false;
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
-            HttpGet request = new HttpGet(createURL());
+            HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
             connectionOK = response.getStatusLine().getStatusCode() == HttpStatus.SC_OK;
         } catch (IOException e) {
@@ -49,10 +57,20 @@ public abstract class GenericRestService<M extends AbstractModel> {
         
     }
 
+    public static void loadProperties() {
+        Properties properties = new Properties();
+        try {
+            properties.load(GenericRestService.class.getResourceAsStream("connections.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        baseUrl = properties.getProperty("base.url");
+    }
+
     public M create(M m) {
         JSONObject jsonObject = createJSONObject(m);
 
-        HttpPost request = new HttpPost(createURL());
+        HttpPost request = new HttpPost(url);
         HttpResponse response;
         request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
 
@@ -78,7 +96,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
     }
 
     public List<M> readAll() {
-        HttpGet request = new HttpGet(createURL());
+        HttpGet request = new HttpGet(url);
         HttpResponse response;
         List<M> list = new ArrayList<>();
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
@@ -102,7 +120,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
 
     public void update(M m) {
         JSONObject jsonPerson = createJSONObjectWithId(m);
-        HttpPut request = new HttpPut(createURL() + "/" + m.getId());
+        HttpPut request = new HttpPut(url + "/" + m.getId());
         request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         StringEntity stringEntity;
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
@@ -116,7 +134,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
     }
 
     public void delete(M m) {
-        HttpDelete request = new HttpDelete(createURL() + "/" + m.getId());
+        HttpDelete request = new HttpDelete(url + "/" + m.getId());
         request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             client.execute(request);
