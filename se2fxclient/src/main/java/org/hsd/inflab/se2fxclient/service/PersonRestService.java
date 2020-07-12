@@ -11,7 +11,7 @@ public class PersonRestService extends GenericRestService<Person> {
     }
 
     @Override
-    protected JSONObject createJSONObject(Person m) {
+    protected JSONObject createJSONObjectFromModelObject(Person m) {
         JSONObject jsonPerson = new JSONObject();
         jsonPerson.put("name", m.getName());
         return jsonPerson;
