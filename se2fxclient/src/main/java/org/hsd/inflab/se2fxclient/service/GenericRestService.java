@@ -31,8 +31,6 @@ public abstract class GenericRestService<M extends AbstractModel> {
 
     protected abstract JSONObject createJSONObject(M m);
 
-    protected abstract JSONObject createJSONObjectWithId(M m);
-
     protected abstract M createModelObjectFromJSONObject(JSONObject jsonObject);
 
     protected void createURL() {
@@ -115,7 +113,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
     }
 
     public void update(M m) {
-        JSONObject jsonObject = createJSONObjectWithId(m);
+        JSONObject jsonObject = createJSONObject(m);
         HttpPut request = new HttpPut(url + "/" + m.getId());
         request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
