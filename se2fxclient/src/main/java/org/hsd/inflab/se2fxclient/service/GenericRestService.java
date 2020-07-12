@@ -45,16 +45,14 @@ public abstract class GenericRestService<M extends AbstractModel> {
     }
 
     public boolean connectionIsWorking() {
-        boolean connectionOK = false;
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
-            HttpGet request = new HttpGet(url);
+            HttpGet request = new HttpGet(baseUrl);
             HttpResponse response = client.execute(request);
-            connectionOK = response.getStatusLine().getStatusCode() == HttpStatus.SC_OK;
+            return response.getStatusLine().getStatusCode() == HttpStatus.SC_OK;
         } catch (IOException e) {
             e.printStackTrace();
-        } 
-        return connectionOK;
-        
+            return false;
+        }        
     }
 
     public static void loadProperties() {

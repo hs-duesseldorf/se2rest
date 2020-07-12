@@ -1,7 +1,5 @@
 package org.hsd.inflab.se2fxclient.controller;
 
-import java.util.List;
-
 import org.hsd.inflab.se2fxclient.model.Person;
 import org.hsd.inflab.se2fxclient.service.PersonRestService;
 import org.hsd.inflab.se2fxclient.view.FxPerson;
@@ -21,19 +19,14 @@ public class PersonController {
     @FXML
     private void initialize() {
         personService = new PersonRestService();
-        List<Person> persons = personService.readAll();
-        if (personService.connectionIsWorking() == true && persons != null) {
-            for (Person person : persons) {
-                addNewPersonFromService(person);
+        if (personService.connectionIsWorking()) {
+            for (Person person : personService.readAll()) {
+                personsVBox.getChildren().add(new FxPerson(person, personsVBox));
             }
         } else {
             new Alert(AlertType.ERROR, "Could not connect to server!").showAndWait();
             System.exit(1);
         }
-    }
-
-    private void addNewPersonFromService(Person person) {
-        personsVBox.getChildren().add(new FxPerson(person, personsVBox));
     }
 
     public void addNewPerson() {
@@ -45,7 +38,6 @@ public class PersonController {
         } else {
             new Alert(AlertType.ERROR, "Could not create Person!").showAndWait();
         }
-
     }
 
 }
