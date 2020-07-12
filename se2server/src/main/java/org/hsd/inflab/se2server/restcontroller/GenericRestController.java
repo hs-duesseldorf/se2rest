@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public abstract class GenericRestController<E extends AbstractEntity> {
 
+	protected abstract E updateEntity(E e, E newE);
+
     @Autowired
     protected BaseRepository<E> repository;
 
@@ -37,6 +39,18 @@ public abstract class GenericRestController<E extends AbstractEntity> {
 		return repository.getOne(id);
 	}
 
-	@PutMapping("{id}")
-	public abstract E update(@PathVariable long id, @RequestBody E entity);
+    @PutMapping("{id}")
+    public E update(@PathVariable long id, @RequestBody E newE) {
+
+        return repository.findById(id).map(e -> {
+            e = updateEntity(e, newE);
+
+			return repository.save(e);
+
+        }).orElseGet(() -> {
+            newE.setId(id);
+            return repository.save(newE);
+        });
+        
+    }
 }
