@@ -1,6 +1,7 @@
 package org.hsd.inflab.se2fxclient.controller;
 
 import org.hsd.inflab.se2fxclient.model.Person;
+import org.hsd.inflab.se2fxclient.service.GenericRestService;
 import org.hsd.inflab.se2fxclient.service.PersonRestService;
 import org.hsd.inflab.se2fxclient.view.FxPerson;
 
@@ -11,14 +12,14 @@ import javafx.scene.layout.VBox;
 
 public class PersonController {
 
-    PersonRestService personService;
+    GenericRestService<Person> personService;
 
     @FXML
     VBox personsVBox;
 
     @FXML
     private void initialize() {
-        personService = new PersonRestService();
+        personService = PersonRestService.getInstance();
         if (personService.connectionIsWorking()) {
             for (Person person : personService.readAll()) {
                 personsVBox.getChildren().add(new FxPerson(person, personsVBox));

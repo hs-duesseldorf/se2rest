@@ -5,6 +5,19 @@ import org.json.JSONObject;
 
 public class PersonRestService extends GenericRestService<Person> {
 
+    private static GenericRestService<Person> instance;
+
+    public static synchronized GenericRestService<Person> getInstance() {
+        if (instance == null) {
+            instance = new PersonRestService();
+        }
+        return instance;
+    }
+
+    private PersonRestService() {
+        super();
+    }
+
     @Override
     protected String getResourceName() {
         return "persons";
