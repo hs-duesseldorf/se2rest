@@ -3,7 +3,7 @@ package org.hsd.inflab.se2server.restcontroller;
 import java.util.List;
 
 import org.hsd.inflab.se2server.entity.AbstractEntity;
-import org.hsd.inflab.se2server.repository.BaseRepository;
+import org.hsd.inflab.se2server.repository.GenericRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ public abstract class GenericRestController<E extends AbstractEntity> {
 	protected abstract E updateEntity(E e, E newE);
 
     @Autowired
-    protected BaseRepository<E> repository;
+    protected GenericRepository<E> repository;
 
 	@GetMapping
 	public List<E> list() {
