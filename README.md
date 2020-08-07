@@ -445,7 +445,7 @@ Search for *javafx* inside the filter textfield and select the row with *org.ope
 
 ![createclientproject4](images/eclipse17_client_maven_project4.png)
 
-Now insert again the groupId *org.hsd.inflab* but the artifactId *se2fxclient*. The package needs to be named *org.hsd.inflab.se2fxclient*
+Now insert again the groupId ```org.hsd.inflab``` but the artifactId ```se2fxclient```- the package needs to be named ```org.hsd.inflab.se2fxclient```
 
 ![createclientprojet5](images/eclipse18_client_maven_project5.png)
 
@@ -611,10 +611,15 @@ public class Person extends AbstractModel {
 
 #### 4.2.8.1. GenericRestService.java
 
+The core of the client is the rest service. It contains methods representing the CRUD operations on the server side. create() read() update() and delete() use a HTTPClient to create HTTP calls. They either create JSON Objects from model objects and send them via HTTP, or receive JSON objects from HTTP and return person model objects created from the JSON objects.
+
+To detach most of the code from the actual model object we want to receive, we will first put most of the code inside ```GenericRestController```. Only the specifics like the resource url and how to convert JSON to model and vice versa will be put into ```PersonRestController.java``` which extends ```GenericRestController.java```.
+To reduce the amount of HTTPClient objects that are created, we will also use the singleton pattern for the ```PersonRestController.java```.
+
 ```java
 package org.hsd.inflab.se2fxclient.service;
 
-import ... // STRG + SHIFT + O
+// organize imports
 
 public abstract class GenericRestService<M extends AbstractModel> {
     
@@ -744,7 +749,9 @@ package org.hsd.inflab.se2fxclient.service;
 
 public class PersonRestService extends GenericRestService<Person> {
 
-    private static GenericRestService<Person> instance;    
+    // Thread safe singleton pattern
+    private static GenericRestService<Person> instance;
+
     public static synchronized GenericRestService<Person> getInstance() {
         if (instance == null) {
             instance = new PersonRestService();
@@ -778,6 +785,8 @@ public class PersonRestService extends GenericRestService<Person> {
 ```
 
 ### 4.2.9. Controller class
+
+The controller class includes the fxml method ```initialize()``` which is called when the UI is created. Here we set the reference to a new ```PersonRestService``` instance.  We check if the connection is working - if yes we create ```FxPerson``` objects for each person in the database.
 
 ```java
 package org.hsd.inflab.se2fxclient.controller;
@@ -830,7 +839,7 @@ The UI representation of a person will be put into ```FxPerson.java``` which wil
 ```java
 package org.hsd.inflab.se2fxclient.view;
 
-import ... // STRG + SHIFT + O
+// organize imports
 
 public class FxPerson extends HBox {
 
