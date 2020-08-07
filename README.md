@@ -102,7 +102,7 @@ You can install XAMPP with __either__ an installation wizard for Windows/MacOS/L
 - Download the [installation wizard](https://www.apachefriends.org/de/download.html) for your operating system
 - Linux users need to make the installer runnable with (version number may change...)
     ```bash
-    cd ~Downloads
+    cd ~/Downloads
     chmod +x xampp-linux-x64-7.4.7-0-installer.run
     sudo ./xampp-linux-x64-7.4.7-0-installer.run
     ```
