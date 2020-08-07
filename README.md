@@ -59,7 +59,7 @@ In this internship we will create a javafx client which communicates with a serv
 The latter is only a means to an end here and should not be discussed further.
 We use the Java development environment Eclipse, but thanks to the modularity of
 Maven projects any other Java development environment can also be used
-like Intellij IDEA, NetBeans or Visual Studio Code Java. And gradle could also be used to include the dependencies and build the project, however this we will use eclipse and maven here.
+like Intellij IDEA, NetBeans or Visual Studio Code Java. And gradle could also be used to include the dependencies and build the project, however this we will use eclipse and maven here (some tips for vscode users can also be found ;))
 
 ## 1.1. Nice-to-know
 
@@ -148,10 +148,9 @@ Eclipse differentiates between the directory in which it has its workspace
 and the directories in which the projects are located.
 I.e. the workspace can be in a different directory than the projects
 (Maven projects, Gradle projects, simple Eclipse Java projects) -
-everything can also be in a directory. In other IDEs
+everything could also be in a directory. In other IDEs
 (Integrated Development Environment) the workspace does not necessarily have to be selected
- (Visual Studio Code). Once projects have been created, they can be used in anyone
- imported into another workspace, if you want.
+ (Visual Studio Code).
 
 ### 3.1.2 Select a workspace
 
@@ -164,6 +163,8 @@ everything can also be in a directory. In other IDEs
 ![3](images/eclipse03_create_maven2.png)
 
 ![4](images/eclipse04_create_maven3.png)
+
+VsCode users: press ```CTRL + SHIFT + P``` and type ```Maven: Create Maven Project``` and follow the wizard in the terminal.
 
 ### 3.1.4. Include needed java libraries
 
@@ -193,8 +194,8 @@ Open ```pom.xml``` and insert the following XML snippet under ```<packaging>war<
 Create the package ```org.hsd.inflab.se2server```
 
 ![createpackage](images/eclipse07_create_package.png)
-![createpackage2](images/eclipse08_create_package2.png)
 
+![createpackage2](images/eclipse08_create_package2.png)
 
 Create the class ```Application.java``` inside the package you've just created:
 
