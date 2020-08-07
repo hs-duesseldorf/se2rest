@@ -334,7 +334,7 @@ public interface PersonRepository extends GenericRepository<Person> { }
 
 ### 3.2.4. Restcontroller
 
-The restcontroller(s) define how the server answer to http calls from clients. Each HTTP command (GET, POST, PUT, DELETE) is translated to a CRUD (create, read/receive, update, delete) operation to store the received JSON in the database as a table row, or to retrieve information the client(s) ask(s) for from the database and send it back inside the http body in JSON.
+The restcontroller(s) define(s) how the server answers to http calls from clients. Each HTTP command (GET, POST, PUT, DELETE) is translated to a CRUD (create, read/receive, update, delete) operation to store the received JSON in the database as a table row, or to retrieve information the client(s) ask(s) for from the database and send it back inside the http body in JSON.
 
 #### 3.2.4.1. GenericRestController.java
 
