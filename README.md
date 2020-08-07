@@ -950,4 +950,6 @@ module org.hsd.inflab.se2fxclient {
 - Create a Person
 - Rename it and click ```OK``` to submit
 - Delete a person with the ```Delete``` button
-- Check the database if all changes are correctly committed 
+- Check the database if all changes are correctly committed
+
+![finaltest](images/eclipse32_final_test.png)
