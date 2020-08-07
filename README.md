@@ -46,7 +46,7 @@
       - [4.2.8.2. PersonRestService.java](#4282-personrestservicejava)
     - [4.2.9. Controller class](#429-controller-class)
     - [4.2.10. Service properties](#4210-service-properties)
-    - [4.2.11. View classes](#4211-view-classes)
+    - [4.2.11. Person view class](#4211-person-view-class)
     - [4.2.12. Set controller in fxml view](#4212-set-controller-in-fxml-view)
     - [4.2.13. Fill up the view](#4213-fill-up-the-view)
     - [4.2.14. Finale module-info.java version](#4214-finale-module-infojava-version)
@@ -353,22 +353,22 @@ public abstract class GenericRestController<E extends AbstractEntity> {
 
 	@GetMapping // HTTP GET
 	public List<E> list() {
-		return repository.findAll();
+        return repository.findAll();
     }
     
 	@PostMapping // HTTP POST
 	public E create(@RequestBody E entity) {
-		return repository.save(entity);
+        return repository.save(entity);
     }
     
 	@DeleteMapping("{id}") // HTTP DELETE
 	public void delete(@PathVariable(value = "id") long id) {
-		repository.deleteById(id);
+        repository.deleteById(id);
     }
     
 	@GetMapping("{id}") // HTTP GET
 	public E get(@PathVariable(value = "id") long id) {
-		return repository.getOne(id);
+        return repository.getOne(id);
     }
     
     @PutMapping("{id}") // HTTP PUT
@@ -737,11 +737,146 @@ public abstract class GenericRestService<M extends AbstractModel> {
 
 #### 4.2.8.2. PersonRestService.java
 
+```java
+package org.hsd.inflab.se2fxclient.service;
+
+// import ... CTRL + SHIFT + O / ALT + SHIFT + O
+
+public class PersonRestService extends GenericRestService<Person> {
+
+    private static GenericRestService<Person> instance;    
+    public static synchronized GenericRestService<Person> getInstance() {
+        if (instance == null) {
+            instance = new PersonRestService();
+        }
+        return instance;
+    }
+    
+    private PersonRestService() {
+        super();
+    }
+
+    @Override
+    protected String getResourceName() {
+        return "persons";
+    }
+
+    @Override
+    protected JSONObject createJSONObjectFromModelObject(Person m) {
+        JSONObject jsonPerson = new JSONObject();
+        jsonPerson.put("name", m.getName());
+        return jsonPerson;
+    }
+
+    @Override
+    protected Person createModelObjectFromJSONObject(JSONObject jsonObject) {
+        Person person = new Person(jsonObject.getString("name"));
+        person.setId(jsonObject.getInt("id"));
+        return person;
+    }
+}
+```
+
 ### 4.2.9. Controller class
+
+```java
+package org.hsd.inflab.se2fxclient.controller;
+
+// import ...
+
+public class PersonController {
+    GenericRestService<Person> personRestService;
+    @FXML
+    VBox personsVBox;
+
+    @FXML
+    private void initialize() {
+        personRestService = PersonRestService.getInstance();
+        if (personRestService.connectionIsWorking()) {
+            for (Person person : personRestService.readAll()) {
+                personsVBox.getChildren().add(new FxPerson(person, personsVBox));
+            }
+        } else {
+            new Alert(AlertType.ERROR, "Could not connect to server!").showAndWait();
+            System.exit(1);
+        }
+    }
+
+    public void addNewPerson() {
+        Person person = personRestService.create(new Person(""));
+        if (person != null) {
+            FxPerson fxPerson = new FxPerson(person, personsVBox);
+            personsVBox.getChildren().add(fxPerson);
+            fxPerson.getName().requestFocus();
+        } else {
+            new Alert(AlertType.ERROR, "Could not create Person!").showAndWait();
+        }
+    }
+}
+```
 
 ### 4.2.10. Service properties
 
-### 4.2.11. View classes
+Create the file ```connections.properties``` inside the ```service``` package in ```src/main/resources``` and insert 
+
+```
+base.url=http://localhost:8080
+```
+
+### 4.2.11. Person view class
+
+The UI representation of a person will be put into ```FxPerson.java``` which will be created by the ```PersonController.java``` above.
+
+```java
+package org.hsd.inflab.se2fxclient.view;
+
+import ... // STRG + SHIFT + O
+
+public class FxPerson extends HBox {
+
+    private TextField name;
+    private Button delete, OK;
+    private Person person;
+    private GenericRestService<Person> personService;
+
+    public FxPerson(Person person, VBox parentVBox) {
+        this.person = person;
+        personService = PersonRestService.getInstance();
+        name = new TextField(this.person.getName());
+        delete = new Button("delete");
+        delete.setOnAction(e -> {
+            personService.delete(person);
+            parentVBox.getChildren().removeAll(this);
+        });
+        OK = new Button("OK");
+        OK.setOnAction(e -> {
+            person.setName(name.textProperty().getValue());
+            personService.update(this.person);
+        });
+        getChildren().addAll(name, OK, delete);
+        applyStyling();
+    }
+
+    public TextField getName() {
+        return this.name;
+    }
+
+    private void applyStyling() {
+        name.setStyle("-fx-border-radius: 10 0 0 10");
+        name.setStyle("-fx-background-radius: 10 0 0 10");
+        name.setMinWidth(300);
+        name.setMaxWidth(300);
+        delete.setStyle("-fx-border-radius: 0 10 10 0");
+        delete.setStyle("-fx-background-radius: 0 10 10 0");
+        delete.setMinWidth(100);
+        delete.setMaxWidth(100);
+        OK.setMinWidth(50);
+        OK.setMaxWidth(50);
+        OK.setStyle("-fx-border-radius: 0");
+        OK.setStyle("-fx-background-radius: 0");
+    }
+}
+```
 
 ### 4.2.12. Set controller in fxml view
 
