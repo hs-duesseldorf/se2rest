@@ -880,8 +880,64 @@ public class FxPerson extends HBox {
 
 ### 4.2.12. Set controller in fxml view
 
+Open ```PersonView.fxml``` inside SceneBuilder and set ```org.hsd.inflab.se2fxclient.controller.PersonController``` as the ```Controller class```
+
+![setcontrollerinview](images/eclipse26_set_controller_in_fxml.png)
+
 ### 4.2.13. Fill up the view
+
+From within the ```Containers``` in the left panel drag and drop a ```ButtonBar``` into the bottom of the ```BorderPane```
+
+![insertbuttonbar](images/eclipse27_insert_buttonbar.png)
+
+Click on the button and rename it to ```New```
+
+![renamebutton](images/eclipse28_rename_button.png)
+
+select the button and insert ```addNewButton``` into the ```On Action``` text field in the ```Code``` section of the right panel to connect the button to method in the controller
+
+![connectbuttontomethod](images/eclipse29_connect_method.png)
+
+Drag and drop an ```AnchorPane``` out of the ```Containers``` section in the left panel into the center of the ```BorderPane```
+
+![insertanchorpane](images/eclipse30_insert_anchorpane.png)
+
+Drag and drop a ```VBox``` out of the ```Containers``` section in the left panel into the ```AnchorPane``` and set the design as you like
+
+![insertvbox](images/eclipse30_insert_vbox.png)
+
+
+Select the VBox and set ```personsVBox``` as the ```fx:id``` in the ```Code``` section of the right panel to connect the variable in your controller class to the fxml
+
+![insertvboxid](images/eclipse31_insert_id.png)
 
 ### 4.2.14. Finale module-info.java version
 
+Finally correct ```module-info.java``` to the following, to correctly export and import the packages and modules
+
+```java
+module org.hsd.inflab.se2fxclient {
+    requires transitive javafx.controls;
+    requires javafx.fxml;
+    requires transitive javafx.graphics;
+    requires org.apache.httpcomponents.httpcore;
+    requires org.apache.httpcomponents.httpclient;
+    requires org.json;
+
+    opens org.hsd.inflab.se2fxclient.view to javafx.fxml;
+    opens org.hsd.inflab.se2fxclient.controller to javafx.fxml;
+    exports org.hsd.inflab.se2fxclient.controller;
+    exports org.hsd.inflab.se2fxclient.view;
+    exports org.hsd.inflab.se2fxclient.model;
+}
+```
+
 # 5. Full stack test
+
+- Start the mysql database from within the XAMPP control panel or the docker container
+- Start the server class ```Application.java```
+- Start the JavaFx client ```App.java```
+- Create a Person
+- Rename it and click ```OK``` to submit
+- Delete a person with the ```Delete``` button
+- Check the database if all changes are correctly committed 
