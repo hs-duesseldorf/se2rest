@@ -452,13 +452,23 @@ Now insert again the groupId ```org.hsd.inflab``` but the artifactId ```se2fxcli
 
 ### 4.1.3. Delete unwanted files
 
-The archetype also created four files which we do not need now. Delete:
+The archetype created the ```pom.xml```, the outer package structure and ```module-info.java``` for us.
+But it also created some files which we do not need. Thus we need to delete them now, to prevent confusion.
+
+**Delete:**
+
+... in ```src/main/java/org/hsd/inflab/se2```
 
 - App.java
-- Controller.java
-- both .fxml files
+- PrimaryController.java
+- SecondaryController.java
 
-We will create similar files in the next steps.
+... in ```src/main/resources/org/hsd/inflab/se2```
+
+- primary.fxml
+- secondary.fxml
+
+We will create similar files by hand in the next steps.
 
 ### 4.1.4. Customize pom.xml
 
