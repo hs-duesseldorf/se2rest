@@ -16,41 +16,41 @@ public abstract class GenericRestController<E extends AbstractEntity> {
 
 	protected abstract E updateEntity(E e, E newE);
 
-    @Autowired
-    protected GenericRepository<E> repository;
+	@Autowired
+	protected GenericRepository<E> repository;
 
 	@GetMapping
 	public List<E> list() {
 		return repository.findAll();
 	}
-	
+
 	@PostMapping
 	public E create(@RequestBody E entity) {
 		return repository.save(entity);
 	}
-	
+
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable(value = "id") long id) {
 		repository.deleteById(id);
 	}
-	
+
 	@GetMapping("{id}")
 	public E get(@PathVariable(value = "id") long id) {
 		return repository.getOne(id);
 	}
 
-    @PutMapping("{id}")
-    public E update(@PathVariable long id, @RequestBody E newE) {
+	@PutMapping("{id}")
+	public E update(@PathVariable long id, @RequestBody E newE) {
 
-        return repository.findById(id).map(e -> {
-            e = updateEntity(e, newE);
+		return repository.findById(id).map(e -> {
+			e = updateEntity(e, newE);
 
 			return repository.save(e);
 
-        }).orElseGet(() -> {
-            newE.setId(id);
-            return repository.save(newE);
-        });
-        
-    }
+		}).orElseGet(() -> {
+			newE.setId(id);
+			return repository.save(newE);
+		});
+
+	}
 }
