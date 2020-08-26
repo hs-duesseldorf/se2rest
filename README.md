@@ -116,7 +116,7 @@ You can install XAMPP with __either__ an installation wizard for Windows/MacOS/L
     sudo groupadd docker
     sudo usermod -aG docker $USER
     reboot # this restarts your machine
-    docker pull cwsl/xampp # start a new terminal
+    docker pull cswl/xampp # start a new terminal
     ```
 - Download [this script](https://raw.githubusercontent.com/cswl/xampp-docker/master/xampp-docker.sh) to your ```~/Downloads``` directory
 - Open the terminal and run the following commands successively to make this *docker-convenience-startup-script* runnable and finally to run, which starts a new docker container, containing the XAMPP instance
