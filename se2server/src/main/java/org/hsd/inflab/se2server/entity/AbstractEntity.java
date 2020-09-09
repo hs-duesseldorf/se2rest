@@ -7,11 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
-
 @SuppressWarnings("serial")
 @MappedSuperclass
-@JsonIgnoreType
 public abstract class AbstractEntity implements Serializable {
 
     @Id
@@ -26,5 +23,5 @@ public abstract class AbstractEntity implements Serializable {
     public void setId(long id) {
         this.id = id;
     }
-    
+
 }

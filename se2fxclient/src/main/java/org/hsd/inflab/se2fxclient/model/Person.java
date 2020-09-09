@@ -2,7 +2,7 @@ package org.hsd.inflab.se2fxclient.model;
 
 public class Person extends AbstractModel {
 
-    String name;
+    String name;    
 
     public String getName() {
         return name;

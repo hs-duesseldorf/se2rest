@@ -23,9 +23,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public abstract class GenericRestService<M extends AbstractModel> {
-    
+
     private static String baseUrl;
-    private static String url;
+    public String url;
 
     protected abstract String getResourceName();
 
@@ -38,7 +38,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
         url = new String(baseUrl + "/" + getResourceName());
     }
 
-    public GenericRestService() {
+    protected GenericRestService() {
         createURL();
     }
 
@@ -50,7 +50,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
-        }        
+        }
     }
 
     public static void loadProperties() {
@@ -81,8 +81,8 @@ public abstract class GenericRestService<M extends AbstractModel> {
                 stringBuilder.append(line);
                 System.out.println(line);
             }
-            JSONObject personJSON = new JSONObject(stringBuilder.toString());
-            m.setId(personJSON.getInt("id"));
+            JSONObject j = new JSONObject(stringBuilder.toString());
+            m.setId(j.getInt("id"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -95,17 +95,20 @@ public abstract class GenericRestService<M extends AbstractModel> {
         List<M> list = new ArrayList<>();
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             response = client.execute(request);
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(response.getEntity().getContent()));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line = "";
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuilder.append(line);
+            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                BufferedReader bufferedReader = new BufferedReader(
+                        new InputStreamReader(response.getEntity().getContent()));
+                StringBuilder stringBuilder = new StringBuilder();
+                String line = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+                JSONArray jsonArray = new JSONArray(stringBuilder.toString());
+                for (JSONObject jsonObject : getJSONObjectListFromJSONArray(jsonArray)) {
+                    list.add(createModelObjectFromJSONObject(jsonObject));
+                }
             }
-            JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-            for (JSONObject jsonObject : getJSONObjectListFromJSONArray(jsonArray)) {
-                list.add(createModelObjectFromJSONObject(jsonObject));
-            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,7 +122,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             request.setEntity(new StringEntity(jsonObject.toString()));
             client.execute(request);
-            System.out.println(jsonObject.toString());
+            System.out.println("Updated Entity: " + jsonObject.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
