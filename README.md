@@ -132,7 +132,7 @@ You can install XAMPP with __either__ an installation wizard for Windows/MacOS/L
 
 ## 2.2. Setup user, database and permission
 
-- navigate to http://localhost:8086/phpmyadmin
+- navigate to http://localhost:80/phpmyadmin
 - click on "User accounts"
 - click on "Add user account"
 - insert a user name and password
