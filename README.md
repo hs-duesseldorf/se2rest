@@ -122,7 +122,38 @@ You can install XAMPP with __either__ an installation wizard for Windows/MacOS/L
     reboot # this restarts your machine
     docker pull cswl/xampp # start a new terminal
     ```
-- Download [this script](https://raw.githubusercontent.com/cswl/xampp-docker/master/xampp-docker.sh) to your ```~/Downloads``` directory
+- Create a new bash shell `xampp-docker.sh` script in your ```~/Downloads``` directory:
+
+    ```bash
+    IMAGE_NAME=cswl/xampp
+    CONTAINER_NAME=xamppy-docker
+    PUBLIC_WWW_DIR='~/web_pages'
+
+
+    echo "Running container '$CONTAINER_NAME' from image '$IMAGE_NAME'..."
+
+    docker start $CONTAINER_NAME > /dev/null 2> /dev/null || {
+        echo "Creating new container..."
+        docker run \
+                -e TZ=Europe/Berlin \
+            --detach \
+            --tty \
+            -p 80:80 \
+            -p 3306:3306 \
+            --name $CONTAINER_NAME \
+            --mount "source=$CONTAINER_NAME-vol,destination=/opt/lampp/var/mysql/" \
+                $IMAGE_NAME
+    }
+
+    if [ "$#" -eq  "0" ]; then
+        docker exec --interactive --tty $CONTAINER_NAME bash
+    elif [ "$1" = "stop" ]; then
+        docker stop $CONTAINER_NAME
+    else
+        docker exec $CONTAINER_NAME $@
+    fi
+    ```
+ 
 - Open the terminal and run the following commands successively to make this *docker-convenience-startup-script* runnable and finally to run, which starts a new docker container, containing the XAMPP instance
     ```bash
     cd ~/Downloads
@@ -217,11 +248,12 @@ Name it Application and click to insert main method:
 - Import missing dependencies with CTRL + SHIFT + O (ALT + SHIFT + O in vscode)
 - Save the file (CTRL + S)
 
-- Create the file ```application.properties``` inside the ```src/main/resources``` package and insert the following properties and change to your database name and user credentials:
+    spring.datasource.password=PASSWORD
+- Create the file ```application.properties``` inside the ```src/main/resources``` package and insert the following properties and change DATABASENAME, USERNAME and  to the values you've entered in 2.2.:
 
     ```
     spring.jpa.hibernate.ddl-auto=create-drop
-    spring.datasource.url=jdbc:mysql://ADDRESS:3306/DATABASENAME
+    spring.datasource.url=jdbc:mysql://localhost:3306/DATABASENAME
     spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
     spring.datasource.username=USERNAME
     spring.datasource.password=PASSWORD
