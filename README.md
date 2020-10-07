@@ -56,7 +56,7 @@
 
 In this internship we will create a JavaFX graphical user interface which communicates with a java server via http. The server will digest requests by either storing or getting the data in/from a mariadb database.
 
-We use Java, Maven, Spring Boot, and XAMPP for this for this. 
+We use Java, Maven, Spring Boot, and XAMPP for this. 
 
 We use the Java development environment Eclipse, but thanks to the modularity of
 Maven projects any other Java development environment could also be used
