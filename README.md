@@ -1,7 +1,6 @@
 - [1. Introduction](#1-introduction)
-  - [1.1. Nice-to-know](#11-nice-to-know)
-  - [1.2. Idea](#12-idea)
-  - [1.3. Learning Goals](#13-learning-goals)
+  - [1.1. Nice-to-know / Download-Links](#11-nice-to-know--download-links)
+  - [1.2. Learning Goals](#12-learning-goals)
 - [2. Database](#2-database)
   - [2.1. Install XAMPP](#21-install-xampp)
     - [2.1.1 Install via Wizard](#211-install-via-wizard)
@@ -55,15 +54,26 @@
 
 # 1. Introduction
 
-In this internship we will create a javafx client which communicates with a server via http. We use XAMPP, Java, Maven and Spring Boot for this.
-The latter is only a means to an end here and should not be discussed further.
+In this internship we will create a JavaFX graphical user interface which communicates with a java server via http. The server will digest requests by either storing or getting the data in/from a mariadb database.
+
+We use Java, Maven, Spring Boot, and XAMPP for this for this. 
+
 We use the Java development environment Eclipse, but thanks to the modularity of
-Maven projects any other Java development environment can also be used
-like Intellij IDEA, NetBeans or Visual Studio Code Java. And gradle could also be used to include the dependencies and build the project, however this we will use eclipse and maven here (some tips for vscode users can also be found ;))
+Maven projects any other Java development environment could also be used
+like Intellij IDEA, NetBeans or Visual Studio Code Java. However we will use Eclipse + Maven here!
 
-## 1.1. Nice-to-know
+So please make sure you have a Java 11 Development Kit, Eclipse (which **already** includes Maven, unlike VsCode) and Gluon Scene Builder installed **before you read any further!**
 
-- [Eclipse](https://de.wikipedia.org/wiki/Eclipse_(IDE)) or [Visual Studio Code Java](https://code.visualstudio.com/docs/languages/java)
+*If you need help in setting up your development environment please read the [software engineering 1 Java & Eclipse tutorial](https://github.com/hs-duesseldorf/software-engineering-1)*
+
+**The whole source code will be provided - however not all imports! Make sure you correctly import the dependencies into your .java files, after you copy & pasted the source code!**
+
+**Eclipse asks you which class you want to import if there are more than 1 possible classes with this name!**
+
+## 1.1. Nice-to-know / Download-Links
+
+- [(AdoptOpenJDK) Java Development Kit](https://adoptopenjdk.net/)
+- [Eclipse](https://www.eclipse.org/downloads/) or [Visual Studio Code Java](https://code.visualstudio.com/docs/languages/java)
 - [Gluon Scene Builder](https://gluonhq.com/products/scene-builder)
 - [Annotationen](https://de.wikipedia.org/wiki/Annotation_(Java))
 - [Generics](https://de.wikipedia.org/wiki/Generische_Programmierung_in_Java)
@@ -74,25 +84,19 @@ like Intellij IDEA, NetBeans or Visual Studio Code Java. And gradle could also b
 - [Java Moduls](https://openjdk.java.net/projects/jigsaw/quick-start)
 - [Singletons](https://de.wikibooks.org/wiki/Muster:_Java:_Singleton)
 
-## 1.2. Idea
-
-JavaFX Client ⟹(HTTP&JSON)⟹ Spring Boot REST JPA Server ⟹ Database
-
-JavaFX Client ⟸(HTTP&JSON)⟸ Spring Boot REST JPA Server ⟸ Database
-
-## 1.3. Learning Goals
+## 1.2. Learning Goals
 
 - Use Maven to access external java libraries
 - Use abstract classes, abstract methods and generics to reduce code duplication
 - Get to know spring boot
-- Learn REST and HTTP
+- Learn REST and most HTTP calls
 - Learn the basics of Java FX and Scene Builder
 
 # 2. Database
 
 ## 2.1. Install XAMPP
 
-XAMPP can be used to simplify the process of setting up a database, user and permissions. If you are familiar with mysql you may not want to use XAMPP at all.
+XAMPP can be used to simplify the process of setting up a database, user and permissions. If you are familiar with mariadb/mysql you may not want to use XAMPP at all.
 XAMPP contains a mysql database, an apache server and PHP to control your database from within your browser with phpmyadmin.
 
 You can install XAMPP with __either__ an installation wizard for Windows/MacOS/Linux __or__ via a docker image.
