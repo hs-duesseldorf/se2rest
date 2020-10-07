@@ -25,7 +25,7 @@ import org.json.JSONObject;
 public abstract class GenericRestService<M extends AbstractModel> {
     
     private static String baseUrl;
-    private static String url;
+    private String url;
 
     protected abstract String getResourceName();
 
