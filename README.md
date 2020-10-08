@@ -122,7 +122,7 @@ You can install XAMPP with __either__ an installation wizard for Windows/MacOS/L
     reboot # this restarts your machine
     docker pull cswl/xampp # start a new terminal
     ```
-- Create a new bash shell `xampp-docker.sh` script in your ```~/Downloads``` directory:
+- Create a new bash shell script named `xampp-docker.sh` in your ```~/Downloads``` directory:
 
     ```bash
     IMAGE_NAME=cswl/xampp
@@ -249,7 +249,7 @@ Name it Application and click to insert main method:
 - Save the file (CTRL + S)
 
     spring.datasource.password=PASSWORD
-- Create the file ```application.properties``` inside the ```src/main/resources``` package and insert the following properties and change DATABASENAME, USERNAME and  to the values you've entered in 2.2.:
+- Create the file ```application.properties``` inside the ```src/main/resources``` package and insert the following properties and change DATABASENAME, USERNAME and PASSWORD to the values you've entered in 2.2.:
 
     ```
     spring.jpa.hibernate.ddl-auto=create-drop
