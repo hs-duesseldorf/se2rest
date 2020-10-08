@@ -671,7 +671,7 @@ package org.hsd.inflab.se2fxclient.service;
 public abstract class GenericRestService<M extends AbstractModel> {
     
     private static String baseUrl;
-    private static String url;
+    private String url;
     protected abstract String getResourceName();
     protected abstract JSONObject createJSONObjectFromModelObject(M m);
     protected abstract M createModelObjectFromJSONObject(JSONObject jsonObject);
