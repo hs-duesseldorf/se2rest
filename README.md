@@ -950,7 +950,7 @@ Click on the button and rename it to ```New```
 
 ![renamebutton](images/eclipse28_rename_button.png)
 
-select the button and insert ```addNewButton``` into the ```On Action``` text field in the ```Code``` section of the right panel to connect the button to method in the controller
+select the button and insert ```addNewPerson``` into the ```On Action``` text field in the ```Code``` section of the right panel to connect the button to method in the controller
 
 ![connectbuttontomethod](images/eclipse29_connect_method.png)
 
