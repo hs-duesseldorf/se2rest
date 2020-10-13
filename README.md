@@ -43,12 +43,12 @@
     - [4.2.8. Service classes](#428-service-classes)
       - [4.2.8.1. GenericRestService.java](#4281-genericrestservicejava)
       - [4.2.8.2. PersonRestService.java](#4282-personrestservicejava)
-    - [4.2.9. Controller class](#429-controller-class)
+    - [4.2.9. The controller class](#429-the-controller-class)
     - [4.2.10. Service properties](#4210-service-properties)
     - [4.2.11. Person view class](#4211-person-view-class)
     - [4.2.12. Set controller in fxml view](#4212-set-controller-in-fxml-view)
     - [4.2.13. Fill up the view](#4213-fill-up-the-view)
-    - [4.2.14. Finale module-info.java version](#4214-finale-module-infojava-version)
+    - [4.2.14. DO NOT FORGET: Final module-info.java version](#4214-do-not-forget-final-module-infojava-version)
 - [5. Full stack test](#5-full-stack-test)
 
 
@@ -66,9 +66,7 @@ So please make sure you have a Java 11 Development Kit, Eclipse (which **already
 
 *If you need help in setting up your development environment please read the [software engineering 1 Java & Eclipse tutorial](https://github.com/hs-duesseldorf/software-engineering-1)*
 
-**The whole source code will be provided - however not all imports! Make sure you correctly import the dependencies into your .java files, after you copy & pasted the source code!**
-
-**Eclipse asks you which class you want to import if there are more than 1 possible classes with this name!**
+**The whole source code will be provided! Make sure you correctly copy & paste - especially the `module-info.java` at the end!**
 
 ## 1.1. Nice-to-know / Download-Links
 
@@ -297,6 +295,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
+@JsonIgnoreType
 public abstract class AbstractEntity implements Serializable {
 
     @Id
@@ -324,7 +323,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class Person extends AbstractEntity {
-    
+
     private static final long serialVersionUID = -3421268250084118586L;
     private String name;
 
@@ -377,7 +376,16 @@ The restcontroller(s) define(s) how the server answers to http calls from client
 ```java
 package org.hsd.inflab.se2server.restcontroller;
 
-// import ...  organize imports (eclipse: CTRL + SHIFT + O | vscode: ALT + SHIFT + O)
+import java.util.List;
+import org.hsd.inflab.se2server.entity.AbstractEntity;
+import org.hsd.inflab.se2server.repository.GenericRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 public abstract class GenericRestController<E extends AbstractEntity> {
     
@@ -563,14 +571,16 @@ Create the class ```App.java``` inside the ```view``` package, check the box at 
 
 ### 4.2.4. Finalize the app class
 
-Put the following code into ```App.java``` and organize the imports:
+Put the following code into ```App.java```:
 
 ```java
 package org.hsd.inflab.se2fxclient.view;
 
 import java.io.IOException;
-
-// import ...  organize imports (eclipse: CTRL + SHIFT + O | vscode: ALT + SHIFT + O)
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class App extends Application {
 
@@ -666,7 +676,26 @@ To reduce the amount of HTTPClient objects that are created, we will also use th
 ```java
 package org.hsd.inflab.se2fxclient.service;
 
-// organize imports
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.hsd.inflab.se2fxclient.model.AbstractModel;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public abstract class GenericRestService<M extends AbstractModel> {
     
@@ -792,7 +821,8 @@ public abstract class GenericRestService<M extends AbstractModel> {
 ```java
 package org.hsd.inflab.se2fxclient.service;
 
-// import ... CTRL + SHIFT + O / ALT + SHIFT + O
+import org.hsd.inflab.se2fxclient.model.Person;
+import org.json.JSONObject;
 
 public class PersonRestService extends GenericRestService<Person> {
 
@@ -831,17 +861,26 @@ public class PersonRestService extends GenericRestService<Person> {
 }
 ```
 
-### 4.2.9. Controller class
+### 4.2.9. The controller class
 
 The controller class includes the fxml method ```initialize()``` which is called when the UI is created. Here we set the reference to a new ```PersonRestService``` instance.  We check if the connection is working - if yes we create ```FxPerson``` objects for each person in the database.
 
 ```java
 package org.hsd.inflab.se2fxclient.controller;
 
-// import ...
+import org.hsd.inflab.se2fxclient.model.Person;
+import org.hsd.inflab.se2fxclient.service.GenericRestService;
+import org.hsd.inflab.se2fxclient.service.PersonRestService;
+import org.hsd.inflab.se2fxclient.view.FxPerson;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.VBox;
 
 public class PersonController {
+
     GenericRestService<Person> personRestService;
+
     @FXML
     VBox personsVBox;
 
@@ -886,7 +925,13 @@ The UI representation of a person will be put into ```FxPerson.java``` which wil
 ```java
 package org.hsd.inflab.se2fxclient.view;
 
-// organize imports
+import org.hsd.inflab.se2fxclient.model.Person;
+import org.hsd.inflab.se2fxclient.service.GenericRestService;
+import org.hsd.inflab.se2fxclient.service.PersonRestService;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class FxPerson extends HBox {
 
@@ -967,9 +1012,9 @@ Select the VBox and set ```personsVBox``` as the ```fx:id``` in the ```Code``` s
 
 ![insertvboxid](images/eclipse31_insert_id.png)
 
-### 4.2.14. Finale module-info.java version
+### 4.2.14. DO NOT FORGET: Final module-info.java version
 
-Finally correct ```module-info.java``` to the following, to correctly export and import the packages and modules
+Finally correct ```module-info.java``` to the following, to correctly export and import the packages and modules, otherwise you will not get rid of the many missing imports in various classes:
 
 ```java
 module org.hsd.inflab.se2fxclient {
