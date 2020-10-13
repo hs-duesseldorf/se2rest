@@ -530,7 +530,7 @@ Even though we've created the maven project from the archetype, we still need to
     <version>20190722</version>
 </dependency>
 ```
-**ATTENTION**: we use the apache HttpClient, because it allows us to create a CloseableHttpClient, which is closed automatically in a try-with-resource statement. This is currently not possible with the HttpClient in the JDK, so we would need to close the HttpClient ourselves. So make sure you import the correct (apache) HttpClient!
+**Information**: we use the apache HttpClient, because it allows us to create a CloseableHttpClient, which is closed automatically in a try-with-resource statement. This is currently not possible with the HttpClient in the JDK, so we would need to close the HttpClient ourselves!
 
 ## 4.2 Implementation
 
