@@ -245,8 +245,6 @@ Name it Application and click to insert main method:
 - Insert ```SpringApplication.run(Application.class, args);``` inside the main() method to run the application
 - Import missing dependencies with CTRL + SHIFT + O (ALT + SHIFT + O in vscode)
 - Save the file (CTRL + S)
-
-    spring.datasource.password=PASSWORD
 - Create the file ```application.properties``` inside the ```src/main/resources``` package and insert the following properties and change DATABASENAME, USERNAME and PASSWORD to the values you've entered in 2.2.:
 
     ```
