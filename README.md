@@ -4,7 +4,10 @@
 - [2. Database](#2-database)
   - [2.1. Install XAMPP](#21-install-xampp)
     - [2.1.1 Install via Wizard](#211-install-via-wizard)
-    - [2.1.2. Install XAMPP via docker image (Ubuntu)](#212-install-xampp-via-docker-image-ubuntu)
+    - [2.1.2. Install XAMPP via docker image](#212-install-xampp-via-docker-image)
+      - [Install Docker and set up the  XAMPP container in Ubuntu](#install-docker-and-set-up-the--xampp-container-in-ubuntu)
+      - [Install Docker and set up the container in Windows](#install-docker-and-set-up-the-container-in-windows)
+      - [Manage the Docker container](#manage-the-docker-container)
   - [2.2. Setup user, database and permission](#22-setup-user-database-and-permission)
 - [3. Server](#3-server)
   - [3.1. Preparation](#31-preparation)
@@ -25,6 +28,7 @@
       - [3.2.4.1. GenericRestController.java](#3241-genericrestcontrollerjava)
       - [3.2.4.2. PersonRestController.java](#3242-personrestcontrollerjava)
   - [3.3. Testing the server](#33-testing-the-server)
+    - [Example testing with Rested for Firefox](#example-testing-with-rested-for-firefox)
 - [4. Client](#4-client)
   - [4.1. Preparation](#41-preparation)
     - [4.1.2. Create maven project with archetype](#412-create-maven-project-with-archetype)
@@ -54,7 +58,7 @@
 
 # 1. Introduction
 
-In this internship we will create a JavaFX graphical user interface which communicates with a java server via http. The server will digest requests by either storing or getting the data in/from a mariadb database.
+In this internship we will build a JavaFX client app which can create the most simplest form of users (names) and sends them to a java server via HTTP. The server will digest those requests by either storing or getting the data in/from a mariadb database.
 
 We use Java, Maven, Spring Boot, and XAMPP for this. 
 
@@ -62,7 +66,7 @@ We use the Java development environment Eclipse, but thanks to the modularity of
 Maven projects any other Java development environment could also be used
 like Intellij IDEA, NetBeans or Visual Studio Code Java. However we will use Eclipse + Maven here!
 
-So please make sure you have a Java 11 Development Kit, Eclipse (which **already** includes Maven, unlike VsCode) and Gluon Scene Builder installed **before you read any further!**
+So please make sure you have a Java 11 Development Kit, Eclipse (which **already** includes Maven, unlike VsCode) and Gluon Scene Builder installed **before you read section further than this section 1!**
 
 *If you need help in setting up your development environment please read the [software engineering 1 Java & Eclipse tutorial](https://github.com/hs-duesseldorf/software-engineering-1)*
 
@@ -110,7 +114,11 @@ You can install XAMPP with __either__ an installation wizard for Windows/MacOS/L
     ```
 - Click through the wizard to install XAMPP and start it
 
-### 2.1.2. Install XAMPP via docker image (Ubuntu)
+### 2.1.2. Install XAMPP via docker image
+
+A very comfortable way of setting up a XAMPP installation is via a docker container. In Ubuntu the installation of Docker is very simple, in Windows you need to have either Windows 10 Enterprise, Pro or Education installed, Windows Home is not enough. If you do so, you can install Docker via this official Docker Tutorial: https://docs.docker.com/docker-for-windows/install/
+
+#### Install Docker and set up the  XAMPP container in Ubuntu
 
 - Open a terminal with CTRL + ALT + T and insert the following commands successively :
     ```bash
@@ -163,7 +171,20 @@ You can install XAMPP with __either__ an installation wizard for Windows/MacOS/L
     ./xampp-docker.sh stop
     ```
 
+#### Install Docker and set up the container in Windows
+
+- Open up Docker Desktop or a command shell and run the following command:
+    ```
+    docker run -e TZ=Europe/Berlin --detach --tty -p 8086:80 -p 3306:3306 --name xamppy-docker --mount "source=xamppy-docker-vol,destination=/opt/lampp/var/mysql/" cswl/xampp
+    ```
+
+#### Manage the Docker container
+
+You can either user Docker Desktop for managing your docker container (start, stop, etc) if you use Windows or you can use [the official Microsoft Docker extension for vscode](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) (recommended if you use Ubuntu).
+
 ## 2.2. Setup user, database and permission
+
+If you used either the XAMPP installer or the docker container to set up XAMPP you can now proceed to set up your database, its user and permissions:
 
 - navigate to http://localhost:80/phpmyadmin
 - click on "User accounts"
@@ -197,7 +218,9 @@ everything could also be in a directory. In other IDEs
 
 ![4](images/eclipse04_create_maven3.png)
 
-VsCode users: press ```CTRL + SHIFT + P``` and type ```Maven: Create Maven Project``` and follow the wizard in the terminal.
+VsCode users: press ```CTRL + SHIFT + P``` and type ```Maven: Create Maven Project``` and follow the wizard in the terminal or create a Maven project with the "+" Symbol in the Java Projects section in your sidebar
+
+![](images/vscode01_create_maven_project.png)
 
 ### 3.1.4. Include needed java libraries
 
@@ -463,8 +486,24 @@ You could now test the server with any rest client. For example:
 
 - ["Rested" addon for firefox](https://addons.mozilla.org/de/firefox/addon/rested/)
 - ["Advanced REST client" extension for chrome/edge](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo?hl=de)
-- the CLI program [curl](https://curl.haxx.se/) (ubuntu: sudo apt install curl)
+- the CLI program [curl](https://curl.haxx.se/) (ubuntu: `sudo apt install curl`)
 - [REST client vscode extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
+- [Postman](https://www.postman.com)
+- [Insomia](https://insomnia.rest)
+
+### Example testing with Rested for Firefox
+
+As described you can use any of common rest client test apps around.
+We will use Rested for Firefox here:
+
+- open up the rested firefox extension
+- send a HTTP GET to localhost:8080/persons
+    ![](images/rested01_get_users.png)
+- currently the person list is empty so we receive an empty JSON array
+- send a HTTP POST to localhost:8080/persons with a body, select the HTTP method POST from the dropdown menu and insert the property `name` with any value you like
+    ![](images/rested02_post_users.png)
+- remember the value of the `id` property the rest server has (here it is 4) send back to you for the created user and send a HTTP DELETE request to the url localhost:8080/persons/4
+    ![](images/rested03_delete_user.png)
 
 # 4. Client
 
