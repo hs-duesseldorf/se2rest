@@ -39,7 +39,7 @@
     - [4.2.2. Configure module-info.java](#422-configure-module-infojava)
     - [4.2.3. Create App class](#423-create-app-class)
     - [4.2.4. Finalize the app class](#424-finalize-the-app-class)
-    - [4.2.5. Create the FXML file for the UI hierarchy](#425-create-the-fxml-file-for-the-ui-hierarchy)
+    - [4.2.5. Create the FXML file PersonView.fxml for the UI hierarchy](#425-create-the-fxml-file-personviewfxml-for-the-ui-hierarchy)
     - [4.2.6. First App test](#426-first-app-test)
     - [4.2.7. Model classes](#427-model-classes)
       - [4.2.7.1 AbstractModel.java](#4271-abstractmodeljava)
@@ -635,11 +635,11 @@ public class App extends Application {
 }
 ```
 
-***IMPORTANT***: ```App.java``` and ```PersonView.fxml``` need to be in the same package: ```view```. But the java file inside ```src/main/java/org/hsd/inflab/se2fxclient/view``` and the fxml file inside ```src/main/resources/org/hsd/inflab/se2fxclient/view``` !!! Otherwise the FxmlLoader will not find the fxml file.
+***IMPORTANT***: ```App.java``` and ```PersonView.fxml``` from the next section  need to be in the same package: ```view```. But the java file inside ```src/main/java/org/hsd/inflab/se2fxclient/view``` and the fxml file inside ```src/main/resources/org/hsd/inflab/se2fxclient/view``` !!! Otherwise the FxmlLoader will not find the fxml file.
 
-### 4.2.5. Create the FXML file for the UI hierarchy
+### 4.2.5. Create the FXML file PersonView.fxml for the UI hierarchy
 
-Open SceneBuilder and create a new file, drag and drop the container ```BorderPane``` out of the left panel (section ```Containers```) onto the drawing area and save the file afterwards into the directory ```se2fxclient/src/main/resources/org/hsd/inflab/se2fxclient/view```
+Open SceneBuilder and create a new file, drag and drop the container ```BorderPane``` out of the left panel (section ```Containers```) onto the drawing area and save the file afterwards into the directory ```se2fxclient/src/main/resources/org/hsd/inflab/se2fxclient/view``` with the file name `PersonView.fxml`
 
 ![newfxml](images/eclipse23_new_fxml.png)
 
