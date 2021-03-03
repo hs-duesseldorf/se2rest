@@ -1021,6 +1021,8 @@ module org.hsd.inflab.se2fxclient {
     requires transitive javafx.graphics;
     requires org.apache.httpcomponents.httpcore;
     requires org.apache.httpcomponents.httpclient;
+    // commons.logging This is only important for vscode users
+    requires commons.logging;
     requires org.json;
 
     opens org.hsd.inflab.se2fxclient.view to javafx.fxml;
