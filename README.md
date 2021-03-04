@@ -58,7 +58,7 @@
 
 # 1. Introduction
 
-In this internship we will build a JavaFX client app which can create the most simplest form of users (names) and sends them to a java server via HTTP. The server will digest those requests by either storing or getting the data in/from a mariadb database.
+In this internship we will build a JavaFX client app which can create the most simplest form of users/persons with only one attribute (name) and sends them to a java server via HTTP. The server will digest those requests by either storing or getting the data in/from a mariadb database.
 
 We use Java, Maven, Spring Boot, and XAMPP for this. 
 
