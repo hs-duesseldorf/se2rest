@@ -66,7 +66,7 @@ We use the Java development environment Eclipse, but thanks to the modularity of
 Maven projects any other Java development environment could also be used
 like Intellij IDEA, NetBeans or Visual Studio Code Java. However we will use Eclipse + Maven here!
 
-So please make sure you have a Java 11 Development Kit, Eclipse (which **already** includes Maven, unlike VsCode) and Gluon Scene Builder installed **before you read section further than this section 1!**
+So please make sure you have a Java 11 Development Kit, Eclipse (which **already** includes Maven, unlike VsCode) and Gluon Scene Builder installed **before you read further than this section 1!**
 
 *If you need help in setting up your development environment please read the [software engineering 1 Java & Eclipse tutorial](https://github.com/hs-duesseldorf/software-engineering-1)*
 
