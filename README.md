@@ -5,9 +5,9 @@
   - [2.1. Install XAMPP](#21-install-xampp)
     - [2.1.1 Install via Wizard](#211-install-via-wizard)
     - [2.1.2. Install XAMPP via docker image](#212-install-xampp-via-docker-image)
-      - [Install Docker and set up the  XAMPP container in Ubuntu](#install-docker-and-set-up-the--xampp-container-in-ubuntu)
-      - [Install Docker and set up the container in Windows](#install-docker-and-set-up-the-container-in-windows)
-      - [Manage the Docker container](#manage-the-docker-container)
+      - [2.1.2.1 Install Docker and set up the  XAMPP container in Ubuntu](#2121-install-docker-and-set-up-the--xampp-container-in-ubuntu)
+      - [2.1.2.2 Install Docker and set up the container in Windows](#2122-install-docker-and-set-up-the-container-in-windows)
+    - [2.1.3 Manage the Docker container without a script](#213-manage-the-docker-container-without-a-script)
   - [2.2. Setup user, database and permission](#22-setup-user-database-and-permission)
 - [3. Server](#3-server)
   - [3.1. Preparation](#31-preparation)
@@ -116,9 +116,9 @@ You can install XAMPP with __either__ an installation wizard for Windows/MacOS/L
 
 ### 2.1.2. Install XAMPP via docker image
 
-A very comfortable way of setting up a XAMPP installation is via a docker container. In Ubuntu the installation of Docker is very simple, in Windows you need to have either Windows 10 Enterprise, Pro or Education installed, Windows Home is not enough. If you do so, you can install Docker via this official Docker Tutorial: https://docs.docker.com/docker-for-windows/install/
+A very comfortable way of setting up a XAMPP installation is via a docker container. In Ubuntu the installation of Docker is very simple, in Windows you need to have either Windows 10 Enterprise, Pro or Education installed (Windows Home is not enough) and install Docker Desktop.
 
-#### Install Docker and set up the  XAMPP container in Ubuntu
+#### 2.1.2.1 Install Docker and set up the  XAMPP container in Ubuntu
 
 - Open a terminal with CTRL + ALT + T and insert the following commands successively :
     ```bash
@@ -171,14 +171,16 @@ A very comfortable way of setting up a XAMPP installation is via a docker contai
     ./xampp-docker.sh stop
     ```
 
-#### Install Docker and set up the container in Windows
+#### 2.1.2.2 Install Docker and set up the container in Windows
+
+- Install Docker via this official Docker Tutorial: https://docs.docker.com/docker-for-windows/install/
 
 - Open up Docker Desktop or a command shell and run the following command:
     ```
     docker run -e TZ=Europe/Berlin --detach --tty -p 8086:80 -p 3306:3306 --name xamppy-docker --mount "source=xamppy-docker-vol,destination=/opt/lampp/var/mysql/" cswl/xampp
     ```
 
-#### Manage the Docker container
+### 2.1.3 Manage the Docker container without a script
 
 You can either user Docker Desktop for managing your docker container (start, stop, etc) if you use Windows or you can use [the official Microsoft Docker extension for vscode](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) (recommended if you use Ubuntu).
 
