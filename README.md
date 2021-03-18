@@ -625,6 +625,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("PersonView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
@@ -1048,6 +1049,10 @@ Drag and drop a ```VBox``` out of the ```Containers``` section in the left panel
 Select the VBox and set ```personsVBox``` as the ```fx:id``` in the ```Code``` section of the right panel to connect the variable in your controller class to the fxml
 
 ![insertvboxid](images/eclipse31_insert_id.png)
+
+If you think this looks better you can add padding left and right to the AnchorPane
+
+![insertpadding](images/scenebuilder01_add_padding.png)
 
 ### 4.2.14. DO NOT FORGET: Final module-info.java version
 

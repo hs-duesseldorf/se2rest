@@ -21,6 +21,9 @@
                      <children>
                         <VBox fx:id="personsVBox" alignment="TOP_CENTER" maxWidth="424.0" minHeight="400.0" minWidth="440.0" spacing="6.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="6.0" />
                      </children>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
                   </AnchorPane>
                </content>
             </ScrollPane>
