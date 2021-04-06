@@ -182,7 +182,9 @@ A very comfortable way of setting up a XAMPP installation is via a docker contai
 
 ### 2.1.3 Manage the Docker container without a script
 
-You can either user Docker Desktop for managing your docker container (start, stop, etc) if you use Windows or you can use [the official Microsoft Docker extension for vscode](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) (recommended if you use Ubuntu).
+You can either user Docker Desktop for managing your docker container (start, stop, etc) if you use Windows or you can use [the official Microsoft Docker extension for vscode](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) (recommended if you use Ubuntu):
+
+![docker](images/docker01.png)
 
 ## 2.2. Setup user, database and permission
 
@@ -191,7 +193,7 @@ If you used either the XAMPP installer or the docker container to set up XAMPP y
 - navigate to http://localhost:80/phpmyadmin
 - click on "User accounts"
 - click on "Add user account"
-- insert a user name and password
+- insert a username and password
 - **IMPORTANT**: check "Create database with same name and grant all privileges." and "Grant all privileges on wildcard name (username\_%)." and "Check all"
 - don't change anything else
 - click "Go"
@@ -200,8 +202,7 @@ If you used either the XAMPP installer or the docker container to set up XAMPP y
 
 ## 3.1. Preparation
 
-Eclipse differentiates between the directory in which it has its workspace
-and the directories in which the projects are located.
+Eclipse differentiates between the directory in which it has its workspace and the directories in which the projects are located.
 I.e. the workspace can be in a different directory than the projects
 (Maven projects, Gradle projects, simple Eclipse Java projects) -
 everything could also be in a directory. In other IDEs
@@ -210,23 +211,48 @@ everything could also be in a directory. In other IDEs
 
 ### 3.1.2 Select a workspace
 
+**Information**
+
+As described eclipse uses an additional abstraction layer onto Java projects called "workspace", where all information is stored about your current work, but not the actual java files, which can be in a different location.
+
+**Doing**
+
+Chose any workspace you like...
+
 ![](images/eclipse01_workspace.png)
+
+*Vscode users: you only need to open a new folder/directory.*
 
 ### 3.1.3. Create a new maven project
 
+We will create a special type of Java project called "Maven project". Maven is a program to manage the lifecycle of java software development and there is much to learn about maven, however we will only use it here  to manage the dependencies (external Java libraries).
+
+Create a new Maven project
+
 ![2](images/eclipse02_create_maven.png)
 
+It is possible to create maven projects from predefined project "blueprints" called *archetypes*.
+For the server application we will skip this and select 
+*Create a simple project (skip archetype selection)*
+
 ![3](images/eclipse03_create_maven2.png)
+
+Fill up the Artifact and Parent Project text fields like in the screenshot. The parent project describes that your project file is extended from a predefined parent project, in this case *spring-boot-starter-parent*.
 
 ![4](images/eclipse04_create_maven3.png)
 
 VsCode users: press ```CTRL + SHIFT + P``` and type ```Maven: Create Maven Project``` and follow the wizard in the terminal or create a Maven project with the "+" Symbol in the Java Projects section in your sidebar
 
-![](images/vscode01_create_maven_project.png)
+<img src=images/vscode01_create_maven_project.png width=300>
 
 ### 3.1.4. Include needed java libraries
 
-![](images/eclipse11_insert_dependencies.png)
+Our server will
+
+1) Write and read from a database
+2) Digest requests from our client application, which we will create later on
+
+For those two steps we need to use the source code of three different java libraries. `spring-boot-starter-data-jpa` and `mysql-connector-java` provide the java classes for the database communication and `spring-boot-starter-data-rest` for the client communication via HTTP calls. So we need to include those three external libraries as dependencies for our server application inside the pom.xml, which describes our maven project.
 
 Open ```pom.xml``` and insert the following XML snippet under ```<packaging>war</packaging>``` and above ```</project>```:
 ```xml
@@ -247,9 +273,15 @@ Open ```pom.xml``` and insert the following XML snippet under ```<packaging>war<
 </dependencies>
 ```
 
+![](images/eclipse11_insert_dependencies.png)
+
 ### 3.1.5. Prepare the spring boot server application
 
-Create the package ```org.hsd.inflab.se2server```
+Now that we've told maven which external libraries we need (which are pulled from the maven repository over the internet when eclipse/vscode builds the  maven project each time we safe a file), we need to set up our spring boot server application. The first step is to create a package and inside a very simple Java class with a main method.
+
+To do so... 
+
+... create the package ```org.hsd.inflab.se2server```
 
 ![createpackage](images/eclipse07_create_package.png)
 
@@ -259,20 +291,25 @@ Create the class ```Application.java``` inside the package you've just created:
 
 ![createapplication](images/eclipse09_create_application_class.png)
 
-Name it Application and click to insert main method:
+Name it *Application* and check the checkbox to insert main method, before you finish this part with the click on the *Finish* button:
 
 ![createapplication2](images/eclipse10_create_application_class2.png)
 
 ### 3.1.6. Make the application runnable
+
+Our Application only needs two changes so the spring boot technology understands this class as a runnable spring boot server application:
 
 - Open ```Application.java```
 - Insert ```@SpringBootApplication``` above ```public class Application```
 - Insert ```SpringApplication.run(Application.class, args);``` inside the main() method to run the application
 - Import missing dependencies with CTRL + SHIFT + O (ALT + SHIFT + O in vscode)
 - Save the file (CTRL + S)
+
+Our server needs some properties to be set, so both the connection to the database and to client work.
+
 - Create the file ```application.properties``` inside the ```src/main/resources``` package and insert the following properties and change DATABASENAME, USERNAME and PASSWORD to the values you've entered in 2.2.:
 
-    ```
+    ```properties
     spring.jpa.hibernate.ddl-auto=create-drop
     spring.datasource.url=jdbc:mysql://localhost:3306/DATABASENAME
     spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
@@ -282,11 +319,18 @@ Name it Application and click to insert main method:
     spring.jpa.show-sql=true
     ```
 
-- Run ```Application.java``` (Eclipse: right click -> Run as -> Java application | VsCode: click on "run" above main()) to make a first test, we will need to restart it later
+To make a first test of our server we will run it now. **Make sure the database is running from within XAMPP!!!**
+
+- Eclipse: right click on `Application.java` -> Run as -> Java application
+- VsCode: click on "run" above `main()` inside `Application.java` or rightclick -> run on `Application.java`
 
 ## 3.2. Server implementation
 
+Now that we've created the server skeleton, we will fill it up with packages and classes needed for to manage the creation, deletion and updating of users. 
+
 ### 3.2.1. Create package structure
+
+Maven does not insist on many files to work but the package structure is very important!
 
 Create inside the meta package ```org.hsd.inflab.se2server``` with
 
@@ -299,6 +343,14 @@ the following packages:
 - ```org.hsd.inflab.se2server.restcontroller```
 
 ### 3.2.2. Entities
+
+Now `spring-boot-starter-data-jpa` comes into play. With it a copy of hibernate is downloaded. Hibernate is an implementation of the **J**ava **P**ersistence API (JPA) and can process special types of classes named **Entities**. Each entity refers to one table inside our database and each attribute of this entity refers to a column inside this table. Hibernate is smart enough so it can even create tables just from looking onto our entity classes.
+
+The java persistence api and thus hibernate work with annotations. When you want to declare a java class as an entity, you simply put the `@Entity` tag above the class declaration. Now all attributes are already understood as individual columns when they are primitive data types such as for example int and String.
+
+One attribute every entity/table needs is a primary key so each row can be identified. In most cases this is a number and just like in an excel file, each row has a number as its first entry. To annotate an attribute as the primary key of a class we need to insert the `@Id` above. If our database should automatically generate a new primary key for each insert into the table, we need to include also the `@GeneratedValue` annotation. If this attribute should every time have a unique value, we also need to use the `@Column(unique = true)` annotation. In our case, we need all three annotations.
+
+Since every entity needs a primary key we can put this id attribute into an abstract class and let all other entities extend from this class. This may look weird in our case, since we only have one Entity, but if you would have like 10 classes, you already safe 100 lines of code if you let them all extend from an abstract entity.
 
 Create ```AbstractEntity.java``` and ```Person.java``` inside the ```entity``` package (depending on your package presentation it might be displayed with its full name ```org.hsd.inflab.se2server.entity```)
 
@@ -364,7 +416,9 @@ public class Person extends AbstractEntity {
 
 ### 3.2.3. Repositories
 
-Create the interfaces (not classes) ```GenericRepository.java``` and ```PersonRepository.java``` inside the ```repository``` package. The person repository works as our data access object (DAO) you might know from other stacks. Depending on your future projects, it might make sense to move away from the generic approach here and just create one repository interface for each entity.
+Spring boot has the power to automatically generate code to access the database for us. One last step is needed to make this possible. We need to create one interface extending from `JpaRepository` for each entity we want to manage. In our project we also want to make the restcontrollers (later on) to be as generic as possible, thus we will also make our data repository interface generic. A JpaRepository could also include method signatures that are then implemented by the spring framework via reflection, in the pattern of `findPersonByName(String name)` but we won't do this here, so our repository interfaces do not include any method. This may look weird but all the magic is done by the spring framework in the background.
+
+Create the interfaces (not classes) ```GenericRepository.java``` and ```PersonRepository.java``` inside the ```repository``` package. The person repository works as our data access object (DAO) you might know from other stacks. Depending on your future projects, it might make sense to move away from the generic approach here and just create one repository interface for each entity without using a GenericRepository.
 
 #### 3.2.3.1. GenericRepository.java
 
@@ -391,6 +445,10 @@ public interface PersonRepository extends GenericRepository<Person> { }
 ### 3.2.4. Restcontroller
 
 The restcontroller(s) define(s) how the server answers to http calls from clients. Each HTTP command (GET, POST, PUT, DELETE) is translated to a CRUD (create, read/receive, update, delete) operation to store the received JSON in the database as a table row, or to retrieve information the client(s) ask(s) for from the database and send it back inside the http body in JSON.
+
+Because in theory we could have much more entities to be made accessible via a restcontroller we will first create a `GenericRestcontroller.java` that already includes all HTTP Call mappings. Only changing an already existing entity is a bit tricky to be made generic, since we ca not say how much and what attributes all of our entities will have. So `GenericRestcontroller.java` includes the abstract method `updateEntity()` which needs to be implemented by each child class of GenericRestcontroller. In our case we only have `PersonRestController.java` so this might look too much effort but if you imagine again you have more than one entity you probably do not want to write down the same mappings again and again.
+
+Create `GenericRestController.java` and `PersonRestController.java` inside the `restcontroller` package.
 
 #### 3.2.4.1. GenericRestController.java
 
@@ -507,6 +565,7 @@ We will use Rested for Firefox here:
 
 # 4. Client
 
+For our very simple application stack we already set up a mariadb via xampp and created a spring boot server to communicate with both clients and the database. Now it is time to create this client in the form of a JavFX graphical user interface (app).
 ## 4.1. Preparation
 
 ### 4.1.2. Create maven project with archetype
@@ -573,6 +632,8 @@ Even though we've created the maven project from the archetype, we still need to
 
 ### 4.2.1. Create package structure
 
+Our client code organisation and thus the package structure will follow the model-view-controller pattern: the model package will include the very simple java classes that store the actual data, the view includes all classes that store the graphical user interface and the controller stores the program logic. On top of this we will also need service classes to communicate with the server.
+
 Inside ```src/main/java``` create the following packages successively
 
 - ```org.hsd.inflab.se2fxclient.model```
@@ -602,11 +663,15 @@ So you end up with:
 
 ### 4.2.3. Create App class
 
+`App.java` is the entry point of our JavaFX application.
+
 Create the class ```App.java``` inside the ```view``` package, check the box at ```public static void main(String[] args)``` and select ```Application``` from the package ```javafx.application``` as superclass:
 
 ![createclientapp](images/eclipse20_client_app.png)
 
 ### 4.2.4. Finalize the app class
+
+We only need to extend our App from `javafx.application.Application` and overwrite the `start()` method, where we load a new Scene build from a FXML file, to have a working JavaFX application.
 
 Put the following code into ```App.java```:
 
@@ -636,9 +701,11 @@ public class App extends Application {
 }
 ```
 
-***IMPORTANT***: ```App.java``` and ```PersonView.fxml``` from the next section  need to be in the same package: ```view```. But the java file inside ```src/main/java/org/hsd/inflab/se2fxclient/view``` and the fxml file inside ```src/main/resources/org/hsd/inflab/se2fxclient/view``` !!! Otherwise the FxmlLoader will not find the fxml file.
+***IMPORTANT***: ```App.java``` and ```PersonView.fxml``` from the next section  need to be in the same package: ```view```. But the java file needs to be inside ```src/main/java/org/hsd/inflab/se2fxclient/view``` and the fxml file inside ```src/main/resources/org/hsd/inflab/se2fxclient/view``` !!! Otherwise the FxmlLoader will not find the fxml file.
 
 ### 4.2.5. Create the FXML file PersonView.fxml for the UI hierarchy
+
+We've loaded `PersonView.fxml"` inside the `start()` method of `App.java` but this file doesn't exist yet. It is a XML file story just the hierarchy of our UI. SceneBuilder is an additional program alongside our IDE (eclipse, vscode, ...) that simplifies and visualizes the creation of such FXML files.
 
 Open SceneBuilder and create a new file, drag and drop the container ```BorderPane``` out of the left panel (section ```Containers```) onto the drawing area and save the file afterwards into the directory ```se2fxclient/src/main/resources/org/hsd/inflab/se2fxclient/view``` with the file name `PersonView.fxml`
 
@@ -646,17 +713,19 @@ Open SceneBuilder and create a new file, drag and drop the container ```BorderPa
 
 ### 4.2.6. First App test
 
-Switch back to your IDE and start ```App.java``` with ```Righ click -> Run as-->Java Application``` (vscode users: click on ```Run | Debug``` above ```public static void main(String[] args)```)
+Switch back to your IDE and start ```App.java```
 
 ![testapp](images/eclipse24_test_app.png)
 
-... and a shiny empty white window should appear
+... and an empty white window should appear
 
 ![testapp2](images/eclipse25_test_app2.png)
 
 ### 4.2.7. Model classes
 
-Every person should be availible on each layer. First of all as a simple model class ```Person.java``` inside the client. Create the model classes ```AbstractModel.java``` and ```Person.java``` inside the ```model``` package.
+As described it is a common practice in software development to detach the code containing the data from the code containing the user interface. In our case we only have one kind of objects (Persons) with only one attribute (name) so the information about every person will be stored inside instances of a very simple class `Person.java` as every person should be available on each layer. Additionally to the name attribute we also need to identify every person. So when we allow persons to have the same names, which is quiet common in real life, we need an additional attribute `id`. And since we do not want to copy-paste the same attribute and its setter- and getter-methods every time we add another class inside `model` we first create an `AbstracModel.java` class containing only the `id` attribute and its setter/getter methods.
+
+Create the model classes ```AbstractModel.java``` and ```Person.java``` inside the ```model``` package.
 
 #### 4.2.7.1 AbstractModel.java
 
@@ -711,6 +780,9 @@ The core of the client is the rest service. It contains methods representing the
 To detach most of the code from the actual model object we want to receive, we will first put most of the code inside ```GenericRestController```. Only the specifics like the resource url and how to convert JSON to model and vice versa will be put into ```PersonRestController.java``` which extends ```GenericRestController.java```.
 To reduce the amount of HTTPClient objects that are created, we will also use the singleton pattern for the ```PersonRestController.java```.
 
+Since this class is a little bit bigger than previous ones, explanations can be found inside the source code as comments.
+
+
 ```java
 package org.hsd.inflab.se2fxclient.service;
 
@@ -737,12 +809,20 @@ import org.json.JSONObject;
 
 public abstract class GenericRestService<M extends AbstractModel> {
     
+    // The base url should be the same for all rest endpoints
+    // so we can make this attribute static
     private static String baseUrl;
+    // The resource url suffix however can't
     private String url;
+    // Child classes need to implement their own resource name
     protected abstract String getResourceName();
+    // We do not know how many attributes the child classes have
+    // So both directions of conversion need to be abstract
     protected abstract JSONObject createJSONObjectFromModelObject(M m);
     protected abstract M createModelObjectFromJSONObject(JSONObject jsonObject);
     
+    // The URL will then be taped together from the baseURL
+    // Plus the resource url in the child class
     protected void createURL() {
         loadProperties();
         url = new String(baseUrl + "/" + getResourceName());
@@ -752,6 +832,8 @@ public abstract class GenericRestService<M extends AbstractModel> {
         createURL();
     }
 
+    // First of all we will send a simple HTTP get to the baseurl
+    // To test if the connection is working
     public boolean connectionIsWorking() {
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             HttpGet request = new HttpGet(baseUrl);
@@ -763,6 +845,8 @@ public abstract class GenericRestService<M extends AbstractModel> {
         }        
     }
 
+    // It is a good practice to load static data from .properties files
+    // In this case this is only done for the base.url
     public static void loadProperties() {
         Properties properties = new Properties();
         try {
@@ -773,15 +857,28 @@ public abstract class GenericRestService<M extends AbstractModel> {
         baseUrl = properties.getProperty("base.url");
     }
 
+    // When we want to create a model object
+    // We will send a HTTP post call to the server
+    // Including a JSON file in the message body (also called entity)
+    // Which only includes all properties of the child class
     public M create(M m) {
+        // As described we can not know how many properties the model has
+        // so we call the abstract method to create the JSON Obhect for us
         JSONObject jsonObject = createJSONObjectFromModelObject(m);
+        // The HTTP Post request is created with the url
         HttpPost request = new HttpPost(url);
-        HttpResponse response;
+        // And the content type is set        
         request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
 
+        HttpResponse response;
+
+        // Now we use the the httpclient from the apache library
+        // Which automatically closes the connection after use
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             request.setEntity(new StringEntity(jsonObject.toString()));
+            // The reponse is stored after request execution
             response = client.execute(request);
+            // And the response body (entity) is pumped into stringbuilder
             BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(response.getEntity().getContent()));
             StringBuilder stringBuilder = new StringBuilder();
@@ -790,14 +887,19 @@ public abstract class GenericRestService<M extends AbstractModel> {
                 stringBuilder.append(line);
                 System.out.println(line);
             }
-            JSONObject personJSON = new JSONObject(stringBuilder.toString());
-            m.setId(personJSON.getInt("id"));
+            // The string containing the JSON can then be storied
+            // inside a JSONObject from the maven dependency we've included
+            JSONObject json = new JSONObject(stringBuilder.toString());
+            m.setId(json.getInt("id"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return m;
     }
 
+    // We call this method to get an array of model object classes
+    // For this a HTTP GET request is send to the server
+    // And the response is stored inside JSONArray
     public List<M> readAll() {
         HttpGet request = new HttpGet(url);
         HttpResponse response;
@@ -821,6 +923,8 @@ public abstract class GenericRestService<M extends AbstractModel> {
         return list;
     }
 
+    // We send a HTTP PUT call to the server in this method
+    // when we want to update an existing entity on the server
     public void update(M m) {
         JSONObject jsonObject = createJSONObjectFromModelObject(m);
         HttpPut request = new HttpPut(url + "/" + m.getId());
@@ -834,6 +938,8 @@ public abstract class GenericRestService<M extends AbstractModel> {
         }
     }
 
+    // To delete an entity on the server, we send a HTTP DELETE call
+    // To the baseurl, followed by the resource URL and the objects id
     public void delete(M m) {
         HttpDelete request = new HttpDelete(url + "/" + m.getId());
         request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
@@ -845,6 +951,8 @@ public abstract class GenericRestService<M extends AbstractModel> {
         }
     }
 
+    // This helper method gives us a List of JSONObjects
+    // When we feed it with an JSONArray
     public List<JSONObject> getJSONObjectListFromJSONArray(JSONArray array) throws JSONException {
         ArrayList<JSONObject> jsonObjects = new ArrayList<>();
         for (int i = 0; i < (array != null ? array.length() : 0); jsonObjects.add(array.getJSONObject(i++)))
@@ -855,6 +963,10 @@ public abstract class GenericRestService<M extends AbstractModel> {
 ```
 
 #### 4.2.8.2. PersonRestService.java
+
+Since the `GenericRestService` already included all HTTP Calls, we only need to implement the abstract methods to convert JSON to Person and Person to JSON in `PersonRestService.java`.
+
+To be very sure that only one instance of each RestService exists in the memory of our computers, we will use the thread safe singleton pattern here. For this the constructor is set to private and a syncronized static `getInstance()` method can be called outside of this class. This method creates one new instance of itself on call if no instance exists, otherwise it returns a reference of the one already existing instance.
 
 ```java
 package org.hsd.inflab.se2fxclient.service;
@@ -958,7 +1070,11 @@ base.url=http://localhost:8080
 
 ### 4.2.11. Person view class
 
-The UI representation of a person will be put into ```FxPerson.java``` which will be created by the ```PersonController.java``` above.
+The UI representation of a person will be put into ```FxPerson.java``` which will be created by the ```PersonController.java``` above and holds a reference to the PersonService.
+
+The name `TextField` contains the value of the name, the OK button calls the update and the delete button the delete methods of the `PersonRestService`.
+
+As a bit of stylistic sugar, we make all UI elements a little bit rounder at the edges within the `applyStyling()` method :)
 
 ```java
 package org.hsd.inflab.se2fxclient.view;
@@ -1018,6 +1134,8 @@ public class FxPerson extends HBox {
 ```
 
 ### 4.2.12. Set controller in fxml view
+
+Now that all java code is done, we return to our FXML file to connect the view to the controller and to create the hierarchy of our UI.
 
 Open ```PersonView.fxml``` inside SceneBuilder and set ```org.hsd.inflab.se2fxclient.controller.PersonController``` as the ```Controller class```
 
