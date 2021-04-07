@@ -446,7 +446,7 @@ public interface PersonRepository extends GenericRepository<Person> { }
 
 The restcontroller(s) define(s) how the server answers to http calls from clients. Each HTTP command (GET, POST, PUT, DELETE) is translated to a CRUD (create, read/receive, update, delete) operation to store the received JSON in the database as a table row, or to retrieve information the client(s) ask(s) for from the database and send it back inside the http body in JSON.
 
-Because in theory we could have much more entities to be made accessible via a restcontroller we will first create a `GenericRestcontroller.java` that already includes all HTTP Call mappings. Only changing an already existing entity is a bit tricky to be made generic, since we ca not say how much and what attributes all of our entities will have. So `GenericRestcontroller.java` includes the abstract method `updateEntity()` which needs to be implemented by each child class of GenericRestcontroller. In our case we only have `PersonRestController.java` so this might look too much effort but if you imagine again you have more than one entity you probably do not want to write down the same mappings again and again.
+Because in theory we could have much more entities to be made accessible via a restcontroller we will first create a `GenericRestcontroller.java` that already includes all HTTP Call mappings. Only changing an already existing entity is a bit tricky to be made generic, since we can not say how much and what attributes all of our entities will have. So `GenericRestcontroller.java` includes the abstract method `updateEntity()` which needs to be implemented by each child class of GenericRestcontroller. In our case we only have `PersonRestController.java` so this might look too much effort but if you imagine again you have more than one entity you probably do not want to write down the same mappings again and again.
 
 Create `GenericRestController.java` and `PersonRestController.java` inside the `restcontroller` package.
 
@@ -723,7 +723,7 @@ Switch back to your IDE and start ```App.java```
 
 ### 4.2.7. Model classes
 
-As described it is a common practice in software development to detach the code containing the data from the code containing the user interface. In our case we only have one kind of objects (Persons) with only one attribute (name) so the information about every person will be stored inside instances of a very simple class `Person.java` as every person should be available on each layer. Additionally to the name attribute we also need to identify every person. So when we allow persons to have the same names, which is quiet common in real life, we need an additional attribute `id`. And since we do not want to copy-paste the same attribute and its setter- and getter-methods every time we add another class inside `model` we first create an `AbstracModel.java` class containing only the `id` attribute and its setter/getter methods.
+As described it is a common practice in software development to detach the code containing the data from the code containing the user interface. In our case we only have one kind of objects (Persons) with only one attribute (name) so the information about every person will be stored inside instances of a very simple class `Person.java` as every person should be available on each layer. Additionally to the name attribute we also need to identify every person. So when we allow persons to have the same names, which is quiet common in real life, we need an additional attribute `id`. And since we do not want to copy-paste the same attribute and its setter- and getter-methods every time we add another class inside `model` we first create an `AbstractModel.java` class containing only the `id` attribute and its setter/getter methods.
 
 Create the model classes ```AbstractModel.java``` and ```Person.java``` inside the ```model``` package.
 
@@ -887,7 +887,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
                 stringBuilder.append(line);
                 System.out.println(line);
             }
-            // The string containing the JSON can then be storied
+            // The string containing the JSON can then be stored
             // inside a JSONObject from the maven dependency we've included
             JSONObject json = new JSONObject(stringBuilder.toString());
             m.setId(json.getInt("id"));
@@ -939,7 +939,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
     }
 
     // To delete an entity on the server, we send a HTTP DELETE call
-    // To the baseurl, followed by the resource URL and the objects id
+    // to the baseurl, followed by the resource URL and the objects id
     public void delete(M m) {
         HttpDelete request = new HttpDelete(url + "/" + m.getId());
         request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
@@ -1151,7 +1151,7 @@ Click on the button and rename it to ```New```
 
 ![renamebutton](images/eclipse28_rename_button.png)
 
-select the button and insert ```addNewPerson``` into the ```On Action``` text field in the ```Code``` section of the right panel to connect the button to method in the controller
+Select the button and insert ```addNewPerson``` into the ```On Action``` text field in the ```Code``` section of the right panel to connect the button to method in the controller
 
 ![connectbuttontomethod](images/eclipse29_connect_method.png)
 
