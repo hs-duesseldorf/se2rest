@@ -565,7 +565,7 @@ We will use Rested for Firefox here:
 
 # 4. Client
 
-For our very simple application stack we already set up a mariadb via xampp and created a spring boot server to communicate with both clients and the database. Now it is time to create this client in the form of a JavFX graphical user interface (app).
+For our very simple application stack we already set up a mariadb via xampp and created a spring boot server to communicate with both clients and the database. Now it is time to create this client in the form of a JavaFX graphical user interface (app).
 ## 4.1. Preparation
 
 ### 4.1.2. Create maven project with archetype
