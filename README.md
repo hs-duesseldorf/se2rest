@@ -597,13 +597,13 @@ But it also created some files which we do not need. Thus we need to delete them
 
 **Delete:**
 
-... in ```src/main/java/org/hsd/inflab/se2```
+... in ```src/main/java/org/hsd/inflab/se2fxclient```
 
 - App.java
 - PrimaryController.java
 - SecondaryController.java
 
-... in ```src/main/resources/org/hsd/inflab/se2```
+... in ```src/main/resources/org/hsd/inflab/se2fxclient```
 
 - primary.fxml
 - secondary.fxml
