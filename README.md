@@ -705,7 +705,7 @@ public class App extends Application {
 
 ### 4.2.5. Create the FXML file PersonView.fxml for the UI hierarchy
 
-We've loaded `PersonView.fxml"` inside the `start()` method of `App.java` but this file doesn't exist yet. It is a XML file story just the hierarchy of our UI. SceneBuilder is an additional program alongside our IDE (eclipse, vscode, ...) that simplifies and visualizes the creation of such FXML files.
+We've loaded `PersonView.fxml` inside the `start()` method of `App.java` but this file doesn't exist yet. It is a XML file story just the hierarchy of our UI. SceneBuilder is an additional program alongside our IDE (eclipse, vscode, ...) that simplifies and visualizes the creation of such FXML files.
 
 Open SceneBuilder and create a new file, drag and drop the container ```BorderPane``` out of the left panel (section ```Containers```) onto the drawing area and save the file afterwards into the directory ```se2fxclient/src/main/resources/org/hsd/inflab/se2fxclient/view``` with the file name `PersonView.fxml`
 
