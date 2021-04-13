@@ -182,7 +182,7 @@ A very comfortable way of setting up a XAMPP installation is via a docker contai
 
 - Open up Docker Desktop or a command shell and run the following command:
     ```
-    docker run -e TZ=Europe/Berlin --detach --tty -p 8086:80 -p 3306:3306 --name xamppy-docker --mount "source=xamppy-docker-vol,destination=/opt/lampp/var/mysql/" cswl/xampp
+    docker run -e TZ=Europe/Berlin --detach --tty -p 80:80 -p 3306:3306 --name xamppy-docker --mount "source=xamppy-docker-vol,destination=/opt/lampp/var/mysql/" cswl/xampp
     ```
 
 ### 2.1.3 Manage the Docker container without a script
