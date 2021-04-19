@@ -316,7 +316,7 @@ Our server needs some properties to be set, so both the connection to the databa
 
     ```properties
     spring.jpa.hibernate.ddl-auto=create-drop
-    spring.datasource.url=jdbc:mysql://localhost:3306/DATABASENAME
+    spring.datasource.url=jdbc:mysql://localhost:3306/DATABASENAME?serverTimezone=Europe/Berlin
     spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
     spring.datasource.username=USERNAME
     spring.datasource.password=PASSWORD
