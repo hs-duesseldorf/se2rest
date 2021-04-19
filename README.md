@@ -784,7 +784,7 @@ public class Person extends AbstractModel {
 
 The core of the client is the rest service. It contains methods representing the CRUD operations on the server side. create() read() update() and delete() use a HTTPClient to create HTTP calls. They either create JSON Objects from model objects and send them via HTTP, or receive JSON objects from HTTP and return person model objects created from the JSON objects.
 
-To detach most of the code from the actual model object we want to receive, we will first put most of the code inside ```GenericRestController```. Only the specifics like the resource url and how to convert JSON to model and vice versa will be put into ```PersonRestController.java``` which extends ```GenericRestController.java```.
+To detach most of the code from the actual model object we want to receive, we will first put most of the code inside ```GenericRestService.java```. Only the specifics like the resource url and how to convert JSON to model and vice versa will be put into ```PersonRestService.java``` which extends ```GenericRestService.java```.
 To reduce the amount of HTTPClient objects that are created, we will also use the singleton pattern for the ```PersonRestController.java```.
 
 Since this class is a little bit bigger than previous ones, explanations can be found inside the source code as comments.
