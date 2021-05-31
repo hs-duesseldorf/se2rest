@@ -548,7 +548,6 @@ public class PersonRestController extends GenericRestController<Person> {
 You could now test the server with any rest client. For example:
 
 - ["Rested" addon for firefox](https://addons.mozilla.org/de/firefox/addon/rested/)
-- ["Advanced REST client" extension for chrome/edge](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo?hl=de)
 - the CLI program [curl](https://curl.haxx.se/) (ubuntu: `sudo apt install curl`)
 - [REST client vscode extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
 - [Postman](https://www.postman.com)
