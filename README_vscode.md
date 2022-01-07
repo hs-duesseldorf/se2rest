@@ -3,11 +3,9 @@
   - [1.2. Learning Goals](#12-learning-goals)
 - [2. Database](#2-database)
   - [2.1. Install XAMPP](#21-install-xampp)
-    - [2.1.1 Install via Wizard - Ubuntu and Windows](#211-install-via-wizard---ubuntu-and-windows)
-    - [2.1.2. Install XAMPP via docker image - recommended! Must have for Mac users!](#212-install-xampp-via-docker-image---recommended-must-have-for-mac-users)
-      - [2.1.2.1 Install Docker and set up the  XAMPP container in Ubuntu](#2121-install-docker-and-set-up-the--xampp-container-in-ubuntu)
-      - [2.1.2.2 Install Docker and set up the container in Windows and MacOS](#2122-install-docker-and-set-up-the-container-in-windows-and-macos)
-    - [2.1.3 Manage the Docker container without a script](#213-manage-the-docker-container-without-a-script)
+      - [2.1.1 Install Docker in Ubuntu](#211-install-docker-in-ubuntu)
+      - [2.1.2 Install Docker and set up the container in Windows and MacOS](#212-install-docker-and-set-up-the-container-in-windows-and-macos)
+    - [2.1.3 Manage the Docker container without docker desktop (needed for Ubuntu)](#213-manage-the-docker-container-without-docker-desktop-needed-for-ubuntu)
   - [2.2. Setup user, database and permission](#22-setup-user-database-and-permission)
 - [3. Server](#3-server)
   - [3.1. Preparation](#31-preparation)
@@ -74,7 +72,18 @@ So please make sure you have a Java 11 Development Kit, vscode, maven and Gluon 
 - [Gluon Scene Builder](https://gluonhq.com/products/scene-builder)
 - [Annotationen](https://de.wikipedia.org/wiki/Annotation_(Java))
 - [Generics](https://de.wikipedia.org/wiki/Generische_Programmierung_in_Java)
-- [Maven](https://maven.apache.org/install.html) (Ubuntu users: `sudo apt install maven`)
+- [Maven](https://maven.apache.org/install.html)
+  - Ubuntu users:
+    - `sudo apt install maven`
+  - Windows users:
+    - open powershell (admin) and run:
+        ```powershell
+        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+        ```
+    - Once the installation is completed, close the Powershell (Admin) or Terminal (Admin) and open it again and run:        
+        `choco install maven`
+  - MacOs users:
+    - `brew install maven`
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [HTTP](https://de.wikipedia.org/wiki/Hypertext_Transfer_Protocol) und [REST](https://de.wikipedia.org/wiki/Representational_State_Transfer)
 - [JavaFX](https://openjfx.io/)
@@ -93,31 +102,9 @@ So please make sure you have a Java 11 Development Kit, vscode, maven and Gluon 
 
 ## 2.1. Install XAMPP
 
-**!!! DISCLAIMER FOR MAC USERS: please install XAMPP via the docker container. Both homebrew and installer are much more effort on MacOS and sometimes even do not work at all !!!**
-
-XAMPP can be used to simplify the process of setting up a database, user and permissions. If you are familiar with mariadb/mysql you may not want to use XAMPP at all.
-XAMPP contains a mysql database, an apache server and PHP to control your database from within your browser with phpmyadmin.
-
-You can install XAMPP with __either__ an installation wizard for Windows/MacOS/Linux __or__ via a docker image.
-
-### 2.1.1 Install via Wizard - Ubuntu and Windows
-
-**Disclaimer for Ubuntu users: the installer *does* work, but we recommend to use the docker image instead (see section below)**
-
-- Download the [installation wizard](https://www.apachefriends.org/de/download.html) for your operating system
-- Linux users need to make the installer runnable with (version number may change...)
-    ```bash
-    cd ~/Downloads
-    chmod +x xampp-linux-x64-7.4.7-0-installer.run
-    sudo ./xampp-linux-x64-7.4.7-0-installer.run
-    ```
-- Click through the wizard to install XAMPP and start it
-
-### 2.1.2. Install XAMPP via docker image - recommended! Must have for Mac users!
-
 A very comfortable way of setting up a XAMPP installation is via a docker container. In Ubuntu the installation of Docker is very simple, in Windows you need to have either Windows 10 Enterprise, Pro or Education installed (Windows Home is not enough) and install Docker Desktop.
 
-#### 2.1.2.1 Install Docker and set up the  XAMPP container in Ubuntu
+#### 2.1.1 Install Docker in Ubuntu
 
 - Open a terminal with CTRL + ALT + T and insert the following commands successively :
     ```bash
@@ -127,50 +114,7 @@ A very comfortable way of setting up a XAMPP installation is via a docker contai
     reboot # this restarts your machine
     docker pull cswl/xampp # start a new terminal
     ```
-- Create a new bash shell script named `xampp-docker.sh` in your ```~/Downloads``` directory:
-
-    ```bash
-    IMAGE_NAME=tomsik68/xampp
-    CONTAINER_NAME=xamppy-docker
-    PUBLIC_WWW_DIR='~/web_pages'
-
-
-    echo "Running container '$CONTAINER_NAME' from image '$IMAGE_NAME'..."
-
-    docker start $CONTAINER_NAME > /dev/null 2> /dev/null || {
-        echo "Creating new container..."
-        docker run \
-                -e TZ=Europe/Berlin \
-            --detach \
-            --tty \
-            -p 80:80 \
-            -p 3306:3306 \
-            --name $CONTAINER_NAME \
-            --mount "source=$CONTAINER_NAME-vol,destination=/opt/lampp/var/mysql/" \
-                $IMAGE_NAME
-    }
-
-    if [ "$#" -eq  "0" ]; then
-        docker exec --interactive --tty $CONTAINER_NAME bash
-    elif [ "$1" = "stop" ]; then
-        docker stop $CONTAINER_NAME
-    else
-        docker exec $CONTAINER_NAME $@
-    fi
-    ```
- 
-- Open the terminal and run the following commands successively to make this *docker-convenience-startup-script* runnable and finally to run, which starts a new docker container, containing the XAMPP instance
-    ```bash
-    cd ~/Downloads
-    chmod +x xampp-docker.sh
-    ./xampp-docker.sh
-    ```
-- If you do not plan to use an IDE (vscode + docker extension for example) to control the docker container, you can stop the container with:
-    ```bash
-    ./xampp-docker.sh stop
-    ```
-
-#### 2.1.2.2 Install Docker and set up the container in Windows and MacOS
+#### 2.1.2 Install Docker and set up the container in Windows and MacOS
 
 - Install Docker via this official Docker Tutorial Windows: https://docs.docker.com/docker-for-windows/install/
 - Install Docker Desktop via this official Docker Tutorial in MacOS: https://docs.docker.com/docker-for-mac/install/
@@ -180,9 +124,9 @@ A very comfortable way of setting up a XAMPP installation is via a docker contai
     docker run -e TZ=Europe/Berlin --detach --tty -p 80:80 -p 3306:3306 --name xamppy-docker --mount "source=xamppy-docker-vol,destination=/opt/lampp/var/mysql/" tomsik68/xampp
     ```
 
-### 2.1.3 Manage the Docker container without a script
+### 2.1.3 Manage the Docker container without docker desktop (needed for Ubuntu)
 
-You can either user Docker Desktop for managing your docker container (start, stop, etc) if you use Windows or you can use [the official Microsoft Docker extension for vscode](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) (recommended):
+You can either user Docker Desktop for managing your docker container (start, stop, etc) if you use Windows/MacOs or you can use [the official Microsoft Docker extension for vscode](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) (recommended) so you do not need to leave vscode:
 
 ![docker](images/docker01.png)
 
