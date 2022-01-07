@@ -469,27 +469,47 @@ For our very simple application stack we already set up a mariadb via xampp and 
 
 ### 4.1.2. Create maven project with archetype
 
-This time we create the maven project without the spring boot initializr but with the archtetype `javafx-archetype-fxml` from `org.openjfx`
+This time we create the maven project without the spring boot initializr but with the archtetype `javafx-archetype-fxml` from `org.openjfx`. Expand the **JAVA PROJECTS** section in the left panel and click on the **+**-Symbol:
 
 ![](images/client_vs_code_01.png)
 
+Click on Maven or use your keyboard (cursor down -> enter):
+
 ![](images/client_vs_code_02.png)
+
+Select **More...**:
 
 ![](images/client_vs_code_03.png)
 
+Type `org.openjfx` which filtes the results, select `java-fx-archetype-fxml`:
+
 ![](images/client_vs_code_04.png)
+
+Select the most recent version - at the time this tutorial was made it was `0.0.6`:
 
 ![](images/client_vs_code_05.png)
 
+Enter `org.hsd.inflab` as your group id and press enter:
+
 ![](images/client_vs_code_06.png)
+
+Enter `se2fxclient` as your artifact id:
 
 ![](images/client_vs_code_07.png)
 
+Select any directory but DO NOT select your se2server directory!!!:
+
 ![](images/client_vs_code_08.png)
+
+Just press enter for the property 'version':
 
 ![](images/client_vs_code_09.png)
 
+Type in **Y** and press enter:
+
 ![](images/client_vs_code_10.png)
+
+Click on **Open** which opens the client project in a new vscode window, keep both vscode windows opened:
 
 ![](images/client_vs_code_11.png)
 
