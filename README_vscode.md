@@ -32,23 +32,22 @@
     - [4.1.4. Customize pom.xml](#414-customize-pomxml)
   - [4.2 Implementation](#42-implementation)
     - [4.2.1. Create package structure](#421-create-package-structure)
-    - [4.2.2. Configure module-info.java](#422-configure-module-infojava)
-    - [4.2.3. Create App class](#423-create-app-class)
-    - [4.2.4. Finalize the app class](#424-finalize-the-app-class)
-    - [4.2.5. Create the FXML file PersonView.fxml for the UI hierarchy](#425-create-the-fxml-file-personviewfxml-for-the-ui-hierarchy)
-    - [4.2.6. First App test](#426-first-app-test)
-    - [4.2.7. Model classes](#427-model-classes)
-      - [4.2.7.1 AbstractModel.java](#4271-abstractmodeljava)
-      - [4.2.7.2. Person.java](#4272-personjava)
-    - [4.2.8. Service classes](#428-service-classes)
-      - [4.2.8.1. GenericRestService.java](#4281-genericrestservicejava)
-      - [4.2.8.2. PersonRestService.java](#4282-personrestservicejava)
+    - [4.2.2. Create App class](#422-create-app-class)
+    - [4.2.3. Finalize the app class](#423-finalize-the-app-class)
+    - [4.2.4. Create the FXML file PersonView.fxml for the UI hierarchy](#424-create-the-fxml-file-personviewfxml-for-the-ui-hierarchy)
+    - [4.2.5. First App test](#425-first-app-test)
+    - [4.2.6. Model classes](#426-model-classes)
+      - [4.2.6.1 AbstractModel.java](#4261-abstractmodeljava)
+      - [4.2.6.2. Person.java](#4262-personjava)
+    - [4.2.7. Service classes](#427-service-classes)
+      - [4.2.7.1. GenericRestService.java](#4271-genericrestservicejava)
+      - [4.2.7.2. PersonRestService.java](#4272-personrestservicejava)
+    - [4.2.8. Person view class](#428-person-view-class)
     - [4.2.9. The controller class](#429-the-controller-class)
     - [4.2.10. Service properties](#4210-service-properties)
-    - [4.2.11. Person view class](#4211-person-view-class)
-    - [4.2.12. Set controller in fxml view](#4212-set-controller-in-fxml-view)
-    - [4.2.13. Fill up the view](#4213-fill-up-the-view)
-    - [4.2.14. DO NOT FORGET: Final module-info.java version](#4214-do-not-forget-final-module-infojava-version)
+    - [4.2.11. Set controller in fxml view](#4211-set-controller-in-fxml-view)
+    - [4.2.12. Fill up the view](#4212-fill-up-the-view)
+    - [4.2.13. DO NOT FORGET: Final module-info.java version](#4213-do-not-forget-final-module-infojava-version)
 - [5. Full stack test](#5-full-stack-test)
 
 
@@ -306,9 +305,9 @@ Create inside the meta package ```org.hsd.inflab.se2server``` with
 
 the following packages/folders:
 
-- ```org.hsd.inflab.se2server.entity```
-- ```org.hsd.inflab.se2server.repository```
-- ```org.hsd.inflab.se2server.restcontroller```
+- ```entity```
+- ```repository```
+- ```restcontroller```
 
 ### 3.2.2. Entities
 
@@ -460,7 +459,7 @@ public abstract class GenericRestController<E extends AbstractEntity> {
     
 	@GetMapping("{id}") // HTTP GET
 	public E get(@PathVariable(value = "id") long id) {
-        return repository.getOne(id);
+        return repository.getById(id);
     }
     
     @PutMapping("{id}") // HTTP PUT
@@ -528,25 +527,29 @@ For our very simple application stack we already set up a mariadb via xampp and 
 
 ### 4.1.2. Create maven project with archetype
 
-This time we create the maven project from an archetype. Normally this saves time if you know which dependencies/libraries you want to include, before you start.
+This time we create the maven project without the spring boot initializr but with the archtetype `javafx-archetype-fxml` from `org.openjfx`
 
-Right click on a free spot inside the package explorer and create a new maven project with with *New -> Other -> Search for "Maven" -> Maven project*
+![](images/client_vs_code_01.png)
 
-![createclientproject](images/eclipse14_client_maven_project.png)
+![](images/client_vs_code_02.png)
 
-![createclientproject](images/eclipse15_client_maven_project2.png)
+![](images/client_vs_code_03.png)
 
-This time do NOT check the box for 
+![](images/client_vs_code_04.png)
 
-![createclientproject3](images/eclipse16_client_maven_project3.png)
+![](images/client_vs_code_05.png)
 
-Search for *javafx* inside the filter textfield and select the row with *org.openjfx javafx-archetype-fxml*
+![](images/client_vs_code_06.png)
 
-![createclientproject4](images/eclipse17_client_maven_project4.png)
+![](images/client_vs_code_07.png)
 
-Now insert again the groupId ```org.hsd.inflab``` but the artifactId ```se2fxclient```- the package needs to be named ```org.hsd.inflab.se2fxclient```
+![](images/client_vs_code_08.png)
 
-![createclientprojet5](images/eclipse18_client_maven_project5.png)
+![](images/client_vs_code_09.png)
+
+![](images/client_vs_code_10.png)
+
+![](images/client_vs_code_11.png)
 
 ### 4.1.3. Delete unwanted files
 
@@ -568,6 +571,8 @@ But it also created some files which we do not need. Thus we need to delete them
 
 We will create similar files by hand in the next steps.
 
+![](images/client_vs_code_12.png)
+
 ### 4.1.4. Customize pom.xml
 
 Even though we've created the maven project from the archetype, we still need to add two dependencies (external java libraries) for creating a HTTPClient and JSONObjects into ```pom.xml```. Inside ```<depedencies>...</dependencies>``` add the following lines (depending on the time you read this tutorial, you might need to adapt the version numbers...):
@@ -576,15 +581,19 @@ Even though we've created the maven project from the archetype, we still need to
 <dependency>
     <groupId>org.apache.httpcomponents</groupId>
     <artifactId>httpclient</artifactId>
-    <version>4.5.9</version>
+    <version>4.5.13</version>
 </dependency>
 <dependency>
     <groupId>org.json</groupId>
     <artifactId>json</artifactId>
-    <version>20190722</version>
+    <version>20211205</version>
 </dependency>
 ```
 **Information**: we use the apache HttpClient, because it allows us to create a CloseableHttpClient, which is closed automatically in a try-with-resource statement. This is currently not possible with the HttpClient in the JDK, so we would need to close the HttpClient ourselves!
+
+You might be asked if you want to synchronize your java clathpath/configuration - chose ALWAYS!
+
+![](images/client_vs_code_21.png)
 
 ## 4.2 Implementation
 
@@ -594,42 +603,40 @@ Even though we've created the maven project from the archetype, we still need to
 
 Our client code organisation and thus the package structure will follow the model-view-controller pattern: the model package will include the very simple java classes that store the actual data, the view includes all classes that store the graphical user interface and the controller stores the program logic. On top of this we will also need service classes to communicate with the server.
 
-Inside ```src/main/java``` create the following packages successively
+Inside ```src/main/java/org/hsd/inflab``` create the folder `se2fxclient`:
 
-- ```org.hsd.inflab.se2fxclient.model```
-- ```org.hsd.inflab.se2fxclient.view```
-- ```org.hsd.inflab.se2fxclient.controller```
-- ```org.hsd.inflab.se2fxclient.service```
+![](images/client_vs_code_13.png)
 
-via
+![](images/client_vs_code_14.png)
 
-![createclientpackages](images/eclipse19_client_package.png)
+Inside `src/main/resources/org/hsd/inflab` create the folder `se2fxclient`
 
-and the **FOLDER** named ```view``` and ```service``` inside the ```src/main/resources``` package:
+![](images/client_vs_code_15.png)
 
-![createclientresourcefolder2](images/eclipse22_client_resource_folder2.png)
+![](images/client_vs_code_16.png)
 
-![createclientresourcefolder3](images/eclipse22_client_resource_folder3.png)
+Inside `src/main/java/org/hsd/inflab/`**se2fxclient** create the following folders successively
 
-So you end up with:
+- ```model```
+- ```view```
+- ```controller```
+- ```service```
 
-![createclientresourcefolder](images/eclipse22_client_resource_folder.png)
+![](images/client_vs_code_17.png)
 
-### 4.2.2. Configure module-info.java
+So you end up with the following directory structure - IMPORTANT - please double check if you created the directory hierarchy correctly:
 
-**IMPORTANT**: since Java9 javafx is not included in the JDK anymore, so we need to use the new module system to make the JavaFX Modules accessible. Let's start with this version of module-info.java but make sure to comment line 6 and 7 for now, because the controller package is currently empty. We will need to adapt module-info.java while we fill the packages:
+![](images/client_vs_code_18.png)
 
-![moduleinfo](images/eclipse21_client_module_info.png)
-
-### 4.2.3. Create App class
+### 4.2.2. Create App class
 
 `App.java` is the entry point of our JavaFX application.
 
-Create the class ```App.java``` inside the ```view``` package, check the box at ```public static void main(String[] args)``` and select ```Application``` from the package ```javafx.application``` as superclass:
+Create the class ```App.java``` inside the ```view``` folder:
 
-![createclientapp](images/eclipse20_client_app.png)
+![](images/client_vs_code_19.png)
 
-### 4.2.4. Finalize the app class
+### 4.2.3. Finalize the app class
 
 We only need to extend our App from `javafx.application.Application` and overwrite the `start()` method, where we load a new Scene build from a FXML file, to have a working JavaFX application.
 
@@ -661,9 +668,7 @@ public class App extends Application {
 }
 ```
 
-***IMPORTANT***: ```App.java``` and ```PersonView.fxml``` from the next section  need to be in the same package: ```view```. But the java file needs to be inside ```src/main/java/org/hsd/inflab/se2fxclient/view``` and the fxml file inside ```src/main/resources/org/hsd/inflab/se2fxclient/view``` !!! Otherwise the FxmlLoader will not find the fxml file.
-
-### 4.2.5. Create the FXML file PersonView.fxml for the UI hierarchy
+### 4.2.4. Create the FXML file PersonView.fxml for the UI hierarchy
 
 We've loaded `PersonView.fxml` inside the `start()` method of `App.java` but this file doesn't exist yet. It is a XML file story just the hierarchy of our UI. SceneBuilder is an additional program alongside our IDE (eclipse, vscode, ...) that simplifies and visualizes the creation of such FXML files.
 
@@ -671,23 +676,38 @@ Open SceneBuilder and create a new file, drag and drop the container ```BorderPa
 
 ![newfxml](images/eclipse23_new_fxml.png)
 
-### 4.2.6. First App test
+### 4.2.5. First App test
 
-Switch back to your IDE and start ```App.java```
+Before you can test your app you need to correct the file `Module-info.java` to this:
 
-![testapp](images/eclipse24_test_app.png)
+```java
+module org.hsd.inflab {
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires transitive javafx.graphics;
+
+    opens org.hsd.inflab.se2fxclient.view to javafx.fxml;
+    exports org.hsd.inflab.se2fxclient.view;
+}
+```
+
+![](images/client_vs_code_before_20.png)
+
+Switch back to your vscode and start ```App.java``` by clicking on the little `Run` label above your `main()` method:
+
+![](images/client_vs_code_20.png)
 
 ... and an empty white window should appear
 
 ![testapp2](images/eclipse25_test_app2.png)
 
-### 4.2.7. Model classes
+### 4.2.6. Model classes
 
 As described it is a common practice in software development to detach the code containing the data from the code containing the user interface. In our case we only have one kind of objects (Persons) with only one attribute (name) so the information about every person will be stored inside instances of a very simple class `Person.java` as every person should be available on each layer. Additionally to the name attribute we also need to identify every person. So when we allow persons to have the same names, which is quiet common in real life, we need an additional attribute `id`. And since we do not want to copy-paste the same attribute and its setter- and getter-methods every time we add another class inside `model` we first create an `AbstractModel.java` class containing only the `id` attribute and its setter/getter methods.
 
 Create the model classes ```AbstractModel.java``` and ```Person.java``` inside the ```model``` package.
 
-#### 4.2.7.1 AbstractModel.java
+#### 4.2.6.1 AbstractModel.java
 
 ```java
 package org.hsd.inflab.se2fxclient.model;
@@ -705,7 +725,7 @@ public class AbstractModel {
     }
 }
 ```
-#### 4.2.7.2. Person.java
+#### 4.2.6.2. Person.java
 
 ```java
 package org.hsd.inflab.se2fxclient.model;
@@ -731,9 +751,29 @@ public class Person extends AbstractModel {
 }
 ```
 
-### 4.2.8. Service classes
+### 4.2.7. Service classes
 
-#### 4.2.8.1. GenericRestService.java
+Before you create the service classes modify `module-info.java` once again to the following version:
+
+```java
+module org.hsd.inflab {
+    requires transitive javafx.controls;
+    requires javafx.fxml;
+    requires transitive javafx.graphics;
+    requires org.apache.httpcomponents.httpcore;
+    requires org.apache.httpcomponents.httpclient;
+    requires commons.logging;
+    requires org.json;
+
+    opens org.hsd.inflab.se2fxclient.view to javafx.fxml;
+    opens org.hsd.inflab.se2fxclient.controller to javafx.fxml;
+    
+    exports org.hsd.inflab.se2fxclient.view;
+    exports org.hsd.inflab.se2fxclient.model;
+}
+```
+
+#### 4.2.7.1. GenericRestService.java
 
 The core of the client is the rest service. It contains methods representing the CRUD operations on the server side. create() read() update() and delete() use a HTTPClient to create HTTP calls. They either create JSON Objects from model objects and send them via HTTP, or receive JSON objects from HTTP and return person model objects created from the JSON objects.
 
@@ -922,7 +962,7 @@ public abstract class GenericRestService<M extends AbstractModel> {
 }
 ```
 
-#### 4.2.8.2. PersonRestService.java
+#### 4.2.7.2. PersonRestService.java
 
 Since the `GenericRestService` already included all HTTP Calls, we only need to implement the abstract methods to convert JSON to Person and Person to JSON in `PersonRestService.java`.
 
@@ -971,64 +1011,8 @@ public class PersonRestService extends GenericRestService<Person> {
 }
 ```
 
-### 4.2.9. The controller class
 
-The controller class includes the fxml method ```initialize()``` which is called when the UI is created. Here we set the reference to a new ```PersonRestService``` instance.  We check if the connection is working - if yes we create ```FxPerson``` objects for each person in the database.
-
-```java
-package org.hsd.inflab.se2fxclient.controller;
-
-import org.hsd.inflab.se2fxclient.model.Person;
-import org.hsd.inflab.se2fxclient.service.GenericRestService;
-import org.hsd.inflab.se2fxclient.service.PersonRestService;
-import org.hsd.inflab.se2fxclient.view.FxPerson;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.VBox;
-
-public class PersonController {
-
-    GenericRestService<Person> personRestService;
-
-    @FXML
-    VBox personsVBox;
-
-    @FXML
-    private void initialize() {
-        personRestService = PersonRestService.getInstance();
-        if (personRestService.connectionIsWorking()) {
-            for (Person person : personRestService.readAll()) {
-                personsVBox.getChildren().add(new FxPerson(person, personsVBox));
-            }
-        } else {
-            new Alert(AlertType.ERROR, "Could not connect to server!").showAndWait();
-            System.exit(1);
-        }
-    }
-
-    public void addNewPerson() {
-        Person person = personRestService.create(new Person(""));
-        if (person != null) {
-            FxPerson fxPerson = new FxPerson(person, personsVBox);
-            personsVBox.getChildren().add(fxPerson);
-            fxPerson.getName().requestFocus();
-        } else {
-            new Alert(AlertType.ERROR, "Could not create Person!").showAndWait();
-        }
-    }
-}
-```
-
-### 4.2.10. Service properties
-
-Create the file ```connections.properties``` inside the ```service``` package in ```src/main/resources``` and insert 
-
-```
-base.url=http://localhost:8080
-```
-
-### 4.2.11. Person view class
+### 4.2.8. Person view class
 
 The UI representation of a person will be put into ```FxPerson.java``` which will be created by the ```PersonController.java``` above and holds a reference to the PersonService.
 
@@ -1093,7 +1077,65 @@ public class FxPerson extends HBox {
 }
 ```
 
-### 4.2.12. Set controller in fxml view
+### 4.2.9. The controller class
+
+The controller class includes the fxml method ```initialize()``` which is called when the UI is created. Here we set the reference to a new ```PersonRestService``` instance.  We check if the connection is working - if yes we create ```FxPerson``` objects for each person in the database.
+
+```java
+package org.hsd.inflab.se2fxclient.controller;
+
+import org.hsd.inflab.se2fxclient.model.Person;
+import org.hsd.inflab.se2fxclient.service.GenericRestService;
+import org.hsd.inflab.se2fxclient.service.PersonRestService;
+import org.hsd.inflab.se2fxclient.view.FxPerson;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.VBox;
+
+public class PersonController {
+
+    GenericRestService<Person> personRestService;
+
+    @FXML
+    VBox personsVBox;
+
+    @FXML
+    private void initialize() {
+        personRestService = PersonRestService.getInstance();
+        if (personRestService.connectionIsWorking()) {
+            for (Person person : personRestService.readAll()) {
+                personsVBox.getChildren().add(new FxPerson(person, personsVBox));
+            }
+        } else {
+            new Alert(AlertType.ERROR, "Could not connect to server!").showAndWait();
+            System.exit(1);
+        }
+    }
+
+    public void addNewPerson() {
+        Person person = personRestService.create(new Person(""));
+        if (person != null) {
+            FxPerson fxPerson = new FxPerson(person, personsVBox);
+            personsVBox.getChildren().add(fxPerson);
+            fxPerson.getName().requestFocus();
+        } else {
+            new Alert(AlertType.ERROR, "Could not create Person!").showAndWait();
+        }
+    }
+}
+```
+
+### 4.2.10. Service properties
+
+Create the file ```connections.properties``` inside the ```service``` package in ```src/main/resources``` and insert 
+
+```
+base.url=http://localhost:8080
+```
+
+
+### 4.2.11. Set controller in fxml view
 
 Now that all java code is done, we return to our FXML file to connect the view to the controller and to create the hierarchy of our UI.
 
@@ -1101,7 +1143,7 @@ Open ```PersonView.fxml``` inside SceneBuilder and set ```org.hsd.inflab.se2fxcl
 
 ![setcontrollerinview](images/eclipse26_set_controller_in_fxml.png)
 
-### 4.2.13. Fill up the view
+### 4.2.12. Fill up the view
 
 From within the ```Containers``` in the left panel drag and drop a ```ButtonBar``` into the bottom of the ```BorderPane```
 
@@ -1132,7 +1174,7 @@ If you think this looks better you can add padding left and right to the AnchorP
 
 ![insertpadding](images/scenebuilder01_add_padding.png)
 
-### 4.2.14. DO NOT FORGET: Final module-info.java version
+### 4.2.13. DO NOT FORGET: Final module-info.java version
 
 Finally correct ```module-info.java``` to the following, to correctly export and import the packages and modules, otherwise you will not get rid of the many missing imports in various classes:
 
@@ -1143,7 +1185,6 @@ module org.hsd.inflab.se2fxclient {
     requires transitive javafx.graphics;
     requires org.apache.httpcomponents.httpcore;
     requires org.apache.httpcomponents.httpclient;
-    // commons.logging This is only important for vscode users
     requires commons.logging;
     requires org.json;
 
