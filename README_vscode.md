@@ -59,15 +59,13 @@ We use the development environment vscode, but thanks to the modularity of
 Maven projects any other Java development environment could also be used
 like Intellij IDEA, NetBeans or Eclipse. However we will use vscode + Maven here!
 
-So please make sure you have a Java 11 Development Kit, vscode, maven and Gluon Scene Builder installed **before you read further than this section 1!**
+So please make sure you have a [Java 11 or 17 Development Kit](https://adoptium.net/), [vscode](https://code.visualstudio.com/), [maven](#1.1) and [Gluon Scene Builder](https://gluonhq.com/products/scene-builder/) installed **before you start with the database, server or client!**
 
-*If you need help in setting up your development environment please read the [software engineering 1 Java & vscode tutorial](https://github.com/hs-duesseldorf/software-engineering-1)*
-
-**The whole source code will be provided! Make sure you correctly copy & paste - especially the `module-info.java` at the end!**
+*If you need help in setting up java and vscode please read the [software engineering 1 Java & vscode tutorial (skip the eclipse part)](https://github.com/hs-duesseldorf/software-engineering-1)*
 
 ## 1.1. Nice-to-know / Download-Links
 
-- [(AdoptOpenJDK) Java Development Kit](https://adoptopenjdk.net/)
+- [Open JDK](https://adoptium.net/)
 - [Visual Studio Code Java](https://code.visualstudio.com/docs/languages/java)
 - [Gluon Scene Builder](https://gluonhq.com/products/scene-builder)
 - [Annotationen](https://de.wikipedia.org/wiki/Annotation_(Java))
