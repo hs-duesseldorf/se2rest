@@ -110,7 +110,7 @@ A very comfortable way of setting up a XAMPP installation is via a docker contai
     sudo groupadd docker
     sudo usermod -aG docker $USER
     reboot # this restarts your machine
-    docker pull cswl/xampp # start a new terminal
+    docker pull tomsik68/xampp # start a new terminal
     ```
 #### 2.1.2 Install Docker and set up the container in Windows and MacOS
 
