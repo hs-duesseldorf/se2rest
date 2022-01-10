@@ -104,21 +104,21 @@ Make sure you have Java, Maven, VSCode, the Java extension pack from Microsoft a
 
 ### 3.1.3. Create a new Spring Boot Maven project
 
-We will create a special type of Java project called "Maven project". Maven is a program to manage the lifecycle of Java software development and there is much to learn about Maven, however we will only use it here to manage the dependencies (external Java libraries). We will use the Spring Boot Initializr to import all needed dependencies on the fly.
+We will create a special type of Java project called "Maven project". Maven is a program to manage the lifecycle of Java software development and there is much to learn about Maven, however we will only use it here to manage the dependencies (external Java libraries). We will use the Spring Boot Initializr to import all needed dependencies on the fly and create a predefined spring boot maven project.
 
 Either press `CTRL + SHIFT + P` (MacOS: `CMD + SHIFT + P`) and type `spring initializr: create a maven project...` (auto complete will let you hit enter after some starting letters) 
 
 ![](images/spring_init_01.png)
 
-or create a Maven project with the "+" Symbol in the Java Projects section in your sidebar
+**or** create a Java project with the "+" Symbol in the Java Projects section in your sidebar
 
 <img src=images/vscode01_create_maven_project.png width=300>
 
-or if you have a fresh window opened use the "create java project" button
+**or** if you have a fresh window opened use the "create java project" button
 
 ![](images/spring_init_02.png)
 
-In either case now select "Spring Boot" and then "Maven Project" as your spring boot project type:
+In either case **now** select "Spring Boot" and then "Maven Project" as your spring boot project type:
 
 ![](images/spring_init_03.png)
 
