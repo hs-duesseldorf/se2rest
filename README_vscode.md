@@ -53,7 +53,7 @@ A very comfortable way of setting up a XAMPP installation is via a Docker contai
 
 #### 2.1.1 Install Docker in Ubuntu
 
-- Open a terminal with `CTRL` + `ALT` + `T` and insert the following commands successively:
+- Open a terminal with `CTRL + ALT + T` and insert the following commands successively:
     ```bash
     sudo apt install docker.io
     sudo groupadd docker
@@ -67,19 +67,19 @@ A very comfortable way of setting up a XAMPP installation is via a Docker contai
 - Install Docker Desktop via this official Docker Tutorial in MacOS: https://docs.docker.com/docker-for-mac/install/
 
 - Open up Docker Desktop or a command shell and run the following command:
-    ```
+    ```bash
     docker run -e TZ=Europe/Berlin --detach --tty -p 80:80 -p 3306:3306 --name xamppy-docker --mount "source=xamppy-docker-vol,destination=/opt/lampp/var/mysql/" tomsik68/xampp
     ```
 
-### 2.1.3 Manage the Docker container without docker desktop (needed for Ubuntu)
+### 2.1.3 Manage the Docker container without Docker desktop (needed for Ubuntu)
 
-You can either use Docker Desktop for managing your docker container (start, stop, etc) if you use Windows/MacOS, or you can use [the official Microsoft Docker extension for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) (recommended) so you do not need to leave VSCode:
+You can either use Docker Desktop for managing your Docker container (start, stop, etc) if you use Windows/MacOS or you can use [the official Microsoft Docker extension for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) (recommended) so you do not need to leave VSCode:
 
 ![docker](images/docker01.png)
 
 ## 2.2. Setup user, database and permission
 
-If you used either the XAMPP installer or the docker container to set up XAMPP you can now proceed to set up your database, its user and permissions:
+If you used either the XAMPP installer or the Docker container to set up XAMPP you can now proceed to set up your database, its user and permissions:
 
 - navigate to http://localhost:80/phpmyadmin
 - click on "User accounts"
@@ -102,11 +102,11 @@ For those two steps we need to use the source code of three different Java libra
 
 Make sure you have Java, Maven, VSCode, the Java extension pack from Microsoft and the Spring Boot extension pack from Pivotal installed, as described here: [software engineering 1 setup tutorial](https://github.com/hs-duesseldorf/software-engineering-1#setup-vscode)!!!
 
-### 3.1.3. Create a new Spring Boot maven project
+### 3.1.3. Create a new Spring Boot Maven project
 
 We will create a special type of Java project called "Maven project". Maven is a program to manage the lifecycle of Java software development and there is much to learn about Maven, however we will only use it here to manage the dependencies (external Java libraries). We will use the Spring Boot Initializr to import all needed dependencies on the fly.
 
-Either press ```CTRL + SHIFT + P``` and type ```spring initializr: create a maven project...``` (auto complete will let you hit enter after some starting letters) 
+Either press `CTRL + SHIFT + P` (MacOS: `CMD + SHIFT + P`) and type `spring initializr: create a maven project...` (auto complete will let you hit enter after some starting letters) 
 
 ![](images/spring_init_01.png)
 
@@ -177,29 +177,29 @@ spring.jackson.serialization.fail-on-empty-beans=false
 spring.jpa.show-sql=true
 ```
 
-To make test our server we will have to execute it. **Make sure the database is running from within your XAMPP Docker!!!**
+To test our server we will have to execute it. **Make sure the database is running from within your XAMPP Docker!!!**
 
-Open the spring boot panel on the left side and press the start button above your spring boot project `se2rest`:
+Open the Spring Boot panel on the left side and press the start button above your Spring Boot project `se2rest`:
 
 ![](images/spring_boot_run.gif)
 
 ## 3.2. Server implementation
 
-Now that we've created the server skeleton, we will fill it up with packages and classes needed for to manage the creation, deletion and updating of users. 
+Now that we've created the server skeleton, we will fill it up with packages and classes needed to manage the creation, deletion and updating of users. 
 
 ### 3.2.1. Create package structure
 
 Maven does not insist on many files to work but the package structure is very important!
 
-Create inside the meta package ```org.hsd.inflab.se2server``` with
+Inside the meta package `org.hsd.inflab.se2server` with
 
 ![](images/spring_new_package.png)
 
-the following packages/folders:
+create the following packages/folders:
 
-- ```entity```
-- ```repository```
-- ```restcontroller```
+- `entity`
+- `repository`
+- `restcontroller`
 
 ### 3.2.2. Entities
 
@@ -207,11 +207,11 @@ Now `spring-boot-starter-data-jpa` comes into play. With it a copy of hibernate 
 
 The Java Persistence API and thus hibernate work with annotations. When you want to declare a Java class as an entity, you simply put the `@Entity` tag above the class declaration. Now all attributes are already understood as individual columns when they are primitive data types such as for example int and String.
 
-One attribute every entity/table needs is a primary key so each row can be identified. In most cases this is a number and just like in an excel file, each row has a number as its first entry. To annotate an attribute as the primary key of a class we need to insert the `@Id` above. If our database should automatically generate a new primary key for each insert into the table, we need to include the `@GeneratedValue` annotation. If this attribute should have a unique value every time, we also need to use the `@Column(unique = true)` annotation. In our case, we need all three annotations.
+One attribute every entity/table needs is a primary key so each row can be identified. In most cases this is a number and just like in an Excel file, each row has a number as its first entry. To annotate an attribute as the primary key of a class we need to insert the `@Id` above. If our database should automatically generate a new primary key for each insert into the table, we need to include the `@GeneratedValue` annotation. If this attribute should have a unique value every time, we also need to use the `@Column(unique = true)` annotation. In our case, we need all three annotations.
 
-Since every entity needs a primary key we can put this id attribute into an abstract class and let all other entities extend from this class. This may look weird in our case, since we only have one Entity, but if you would have like 10 classes, you already save 100 lines of code if you let them all extend from an abstract entity.
+Since every entity needs a primary key we can put this id attribute into an abstract class and let all other entities extend from this class. This may look weird in our case, since we only have one Entity, but if you would have 10 classes, you would already save 100 lines of code if you let them all extend from an abstract entity.
 
-Create ```AbstractEntity.java``` and ```Person.java``` inside the ```entity``` package (depending on your package presentation it might be displayed with its full name ```org.hsd.inflab.se2server.entity```)
+Create `AbstractEntity.java` and `Person.java` inside the `entity` package (depending on your package presentation it might be displayed with its full name `org.hsd.inflab.se2server.entity`)
 
 #### 3.2.2.1. AbstractEntity.java
 
@@ -277,7 +277,7 @@ public class Person extends AbstractEntity {
 
 Spring Boot has the power to automatically generate code to access the database for us. One last step is needed to make this possible. We need to create one interface extending from `JpaRepository` for each entity we want to manage. In our project we also want to make the restcontrollers (later on) to be as generic as possible, thus we will also make our data repository interface generic. A JpaRepository could also include method signatures that are then implemented by the spring framework via reflection, in the pattern of `findPersonByName(String name)` but we won't do this here, so our repository interfaces do not include any method. This may look weird but all the magic is done by the spring framework in the background.
 
-Create the interfaces (not classes) ```GenericRepository.java``` and ```PersonRepository.java``` inside the ```repository``` package. The person repository works as our data access object (DAO) you might know from other stacks. Depending on your future projects, it might make sense to move away from the generic approach here and just create one repository interface for each entity without using a GenericRepository.
+Create the interfaces (not classes) `GenericRepository.java` and `PersonRepository.java` inside the `repository` package. The person repository works as our data access object (DAO) you might know from other stacks. Depending on your future projects, it might make sense to move away from the generic approach here and just create one repository interface for each entity without using a GenericRepository.
 
 #### 3.2.3.1. GenericRepository.java
 
@@ -303,7 +303,7 @@ public interface PersonRepository extends GenericRepository<Person> { }
 
 ### 3.2.4. Restcontroller
 
-The restcontroller(s) define(s) how the server answers to http calls from clients. Each HTTP command (GET, POST, PUT, DELETE) is translated to a CRUD (create, read/receive, update, delete) operation to store the received JSON in the database as a table row, or to retrieve information the client(s) ask(s) for from the database and send it back inside the http body in JSON.
+The restcontroller(s) define(s) how the server answers to HTTP calls from clients. Each HTTP command (GET, POST, PUT, DELETE) is translated to a CRUD (create, read/receive, update, delete) operation to store the received JSON in the database as a table row, or to retrieve information the client(s) ask(s) for from the database and send it back inside the http body in JSON.
 
 Because in theory we could have much more entities to be made accessible via a restcontroller we will first create a `GenericRestcontroller.java` that already includes all HTTP Call mappings. Only changing an already existing entity is a bit tricky to be made generic, since we can not say how much and what attributes all of our entities will have. So `GenericRestcontroller.java` includes the abstract method `updateEntity()` which needs to be implemented by each child class of GenericRestcontroller. In our case we only have `PersonRestController.java` so this might look like too much effort but if you imagine again you have more than one entity you probably do not want to write down the same mappings again and again.
 
@@ -414,12 +414,13 @@ We use the extension `Thunder Client` from `RANGA VADHINENI` in VSCode:
 
 # 4. Client
 
-For our very simple application stack we already set up a mariadb via xampp and created a spring boot server to communicate with both clients and the database. Now it is time to create this client in the form of a JavaFX graphical user interface (app).
+For our very simple application stack we already set up a MariaDB via XAMPP and created a Spring Boot server to communicate with both clients and the database. Now it is time to create this client in the form of a JavaFX graphical user interface (app).
+
 ## 4.1. Preparation
 
 ### 4.1.2. Create maven project with archetype
 
-This time we create the maven project without the spring boot initializr but with the archtetype `javafx-archetype-fxml` from `org.openjfx`. Expand the **JAVA PROJECTS** section in the left panel and click on the **+**-Symbol:
+This time we create the Maven project without the Spring Boot initializr but with the archtetype `javafx-archetype-fxml` from `org.openjfx`. Expand the **JAVA PROJECTS** section in the left panel and click on the **+**-Symbol:
 
 ![](images/client_vs_code_01.png)
 
@@ -465,18 +466,18 @@ Click on **Open** which opens the client project in a new VSCode window, keep bo
 
 ### 4.1.3. Delete unwanted files
 
-The archetype created the ```pom.xml```, the outer package structure and ```module-info.java``` for us.
+The archetype created the `pom.xml`, the outer package structure and `module-info.java` for us.
 But it also created some files which we do not need. Thus we need to delete them now, to prevent confusion.
 
 **Delete:**
 
-... in ```src/main/java/org/hsd/inflab/se2fxclient```
+... in `src/main/java/org/hsd/inflab/se2fxclient`
 
 - App.java
 - PrimaryController.java
 - SecondaryController.java
 
-... in ```src/main/resources/org/hsd/inflab/se2fxclient```
+... in `src/main/resources/org/hsd/inflab/se2fxclient`
 
 - primary.fxml
 - secondary.fxml
@@ -487,7 +488,7 @@ We will create similar files by hand in the next steps.
 
 ### 4.1.4. Customize pom.xml
 
-Even though we've created the maven project from the archetype, we still need to add two dependencies (external Java libraries) for creating a HTTPClient and JSONObjects into ```pom.xml```. Inside ```<depedencies>...</dependencies>``` add the following lines (depending on the time you read this tutorial, you might need to adapt the version numbers...):
+Even though we've created the Maven project from the archetype, we still need to add two dependencies (external Java libraries) for creating a HTTPClient and JSONObjects into `pom.xml`. Inside `<depedencies>...</dependencies>` add the following lines (depending on the time you read this tutorial, you might need to adapt the version numbers...):
 
 ```xml
 <dependency>
@@ -503,7 +504,7 @@ Even though we've created the maven project from the archetype, we still need to
 ```
 **Information**: we use the apache HttpClient, because it allows us to create a CloseableHttpClient, which is closed automatically in a try-with-resource statement. This is currently not possible with the HttpClient in the JDK, so we would need to close the HttpClient ourselves!
 
-You might be asked if you want to synchronize your Java clathpath/configuration - chose ALWAYS!
+You might be asked if you want to synchronize your Java classpath/configuration - choose ALWAYS!
 
 ![](images/client_vs_code_21.png)
 
@@ -515,7 +516,7 @@ You might be asked if you want to synchronize your Java clathpath/configuration 
 
 Our client code organisation and thus the package structure will follow the model-view-controller pattern: the model package will include the very simple Java classes that store the actual data, the view includes all classes that store the graphical user interface and the controller stores the program logic. On top of this we will also need service classes to communicate with the server.
 
-Inside ```src/main/java/org/hsd/inflab``` create the folder `se2fxclient`:
+Inside `src/main/java/org/hsd/inflab` create the folder `se2fxclient`:
 
 ![](images/client_vs_code_13.png)
 
@@ -529,10 +530,10 @@ Inside `src/main/resources/org/hsd/inflab` create the folder `se2fxclient`
 
 Inside `src/main/java/org/hsd/inflab/`**se2fxclient** create the following folders successively
 
-- ```model```
-- ```view```
-- ```controller```
-- ```service```
+- `model`
+- `view`
+- `controller`
+- `service`
 
 ![](images/client_vs_code_17.png)
 
@@ -544,7 +545,7 @@ So you end up with the following directory structure - IMPORTANT - please double
 
 `App.java` is the entry point of our JavaFX application.
 
-Create the class ```App.java``` inside the ```view``` folder:
+Create the class `App.java` inside the `view` folder:
 
 ![](images/client_vs_code_19.png)
 
@@ -552,7 +553,7 @@ Create the class ```App.java``` inside the ```view``` folder:
 
 We only need to extend our App from `javafx.application.Application` and overwrite the `start()` method, where we load a new Scene build from a FXML file, to have a working JavaFX application.
 
-Put the following code into ```App.java```:
+Put the following code into `App.java`:
 
 ```java
 package org.hsd.inflab.se2fxclient.view;
@@ -584,7 +585,7 @@ public class App extends Application {
 
 We've loaded `PersonView.fxml` inside the `start()` method of `App.java` but this file doesn't exist yet. It is a XML file story just the hierarchy of our UI. SceneBuilder is an additional program alongside our IDE (Eclipse, VSCode, ...) that simplifies and visualizes the creation of such FXML files.
 
-Open SceneBuilder and create a new file, drag and drop the container ```BorderPane``` out of the left panel (section ```Containers```) onto the drawing area and save the file afterwards into the directory where your se2rest project is on your computer into the package ```se2fxclient/src/main/resources/org/hsd/inflab/se2fxclient/view``` with the file name `PersonView.fxml`
+Open SceneBuilder and create a new file, drag and drop the container `BorderPane` out of the left panel (section `Containers`) onto the drawing area and save the file afterwards into the directory where your se2rest project is on your computer into the package `se2fxclient/src/main/resources/org/hsd/inflab/se2fxclient/view` with the file name `PersonView.fxml`
 
 ![newfxml](images/eclipse23_new_fxml.png)
 
@@ -617,7 +618,7 @@ Switch back to your VSCode and start ```App.java``` by clicking on the little `R
 
 As described it is a common practice in software development to detach the code containing the data from the code containing the user interface. In our case we only have one kind of object (Persons) with only one attribute (name) so the information about every person will be stored inside instances of a very simple class `Person.java` as every person should be available on each layer. Additionally to the name attribute we also need to identify every person. So when we allow persons to have the same names, which is quite common in real life, we need an additional attribute `id`. And since we do not want to copy-paste the same attribute and its setter- and getter-methods every time we add another class inside `model` we first create an `AbstractModel.java` class containing only the `id` attribute and its setter/getter methods.
 
-Create the model classes ```AbstractModel.java``` and ```Person.java``` inside the ```model``` package.
+Create the model classes `AbstractModel.java` and `Person.java` inside the `model` package.
 
 #### 4.2.6.1 AbstractModel.java
 
@@ -689,8 +690,8 @@ module org.hsd.inflab {
 
 The core of the client is the rest service. It contains methods representing the CRUD operations on the server side. create() read() update() and delete() use a HTTPClient to create HTTP calls. They either create JSON Objects from model objects and send them via HTTP, or receive JSON objects from HTTP and return person model objects created from the JSON objects.
 
-To detach most of the code from the actual model object we want to receive, we will first put most of the code inside ```GenericRestService.java```. Only the specifics like the resource url and how to convert JSON to model and vice versa will be put into ```PersonRestService.java``` which extends ```GenericRestService.java```.
-To reduce the amount of HTTPClient objects that are created, we will also use the singleton pattern for the ```PersonRestController.java```.
+To detach most of the code from the actual model object we want to receive, we will first put most of the code inside `GenericRestService.java`. Only the specifics like the resource url and how to convert JSON to model and vice versa will be put into `PersonRestService.java` which extends `GenericRestService.java`.
+To reduce the amount of HTTPClient objects that are created, we will also use the singleton pattern for the `PersonRestController.java`.
 
 Since this class is a little bit bigger than previous ones, explanations can be found inside the source code as comments.
 
@@ -926,7 +927,7 @@ public class PersonRestService extends GenericRestService<Person> {
 
 ### 4.2.8. Person view class
 
-The UI representation of a person will be put into ```FxPerson.java``` which will be created by the ```PersonController.java``` above and holds a reference to the PersonService.
+The UI representation of a person will be put into `FxPerson.java` which will be created by the `PersonController.java` above and holds a reference to the PersonService.
 
 The name `TextField` contains the value of the name, the OK button calls the update and the delete button the delete methods of the `PersonRestService`.
 
@@ -991,7 +992,7 @@ public class FxPerson extends HBox {
 
 ### 4.2.9. The controller class
 
-The controller class includes the FXML method ```initialize()``` which is called when the UI is created. Here we set the reference to a new ```PersonRestService``` instance.  We check if the connection is working - if yes we create ```FxPerson``` objects for each person in the database.
+The controller class includes the FXML method `initialize()` which is called when the UI is created. Here we set the reference to a new `PersonRestService` instance.  We check if the connection is working - if so we create `FxPerson` objects for each person in the database.
 
 ```java
 package org.hsd.inflab.se2fxclient.controller;
@@ -1040,7 +1041,7 @@ public class PersonController {
 
 ### 4.2.10. Service properties
 
-Create the file ```connections.properties``` inside the ```service``` package in ```src/main/resources``` and insert 
+Create the file `connections.properties` inside the `service` package in `src/main/resources` and insert 
 
 ```
 base.url=http://localhost:8080
@@ -1051,34 +1052,34 @@ base.url=http://localhost:8080
 
 Now that all Java code is done, we return to our FXML file to connect the view to the controller and to create the hierarchy of our UI.
 
-Open ```PersonView.fxml``` inside SceneBuilder and set ```org.hsd.inflab.se2fxclient.controller.PersonController``` as the ```Controller class```
+Open `PersonView.fxml` inside SceneBuilder and set `org.hsd.inflab.se2fxclient.controller.PersonController` as the `Controller class`
 
 ![setcontrollerinview](images/eclipse26_set_controller_in_fxml.png)
 
 ### 4.2.12. Fill up the view
 
-From within the ```Containers``` in the left panel drag and drop a ```ButtonBar``` into the bottom of the ```BorderPane```
+From within the `Containers` in the left panel drag and drop a `ButtonBar` into the bottom of the `BorderPane`
 
 ![insertbuttonbar](images/eclipse27_insert_buttonbar.png)
 
-Click on the button and rename it to ```New```
+Click on the button and rename it to `New`
 
 ![renamebutton](images/eclipse28_rename_button.png)
 
-Select the button and insert ```addNewPerson``` into the ```On Action``` text field in the ```Code``` section of the right panel to connect the button to method in the controller
+Select the button and insert `addNewPerson` into the `On Action` text field in the `Code` section of the right panel to connect the button to method in the controller
 
 ![connectbuttontomethod](images/eclipse29_connect_method.png)
 
-Drag and drop an ```AnchorPane``` out of the ```Containers``` section in the left panel into the center of the ```BorderPane```
+Drag and drop an `AnchorPane` out of the `Containers` section in the left panel into the center of the `BorderPane`
 
 ![insertanchorpane](images/eclipse30_insert_anchorpane.png)
 
-Drag and drop a ```VBox``` out of the ```Containers``` section in the left panel into the ```AnchorPane``` and set the design as you like
+Drag and drop a `VBox` out of the `Containers` section in the left panel into the `AnchorPane` and set the design as you like
 
 ![insertvbox](images/eclipse30_insert_vbox.png)
 
 
-Select the VBox and set ```personsVBox``` as the ```fx:id``` in the ```Code``` section of the right panel to connect the variable in your controller class to the FXML
+Select the VBox and set `personsVBox` as the `fx:id` in the `Code` section of the right panel to connect the variable in your controller class to the FXML
 
 ![insertvboxid](images/eclipse31_insert_id.png)
 
@@ -1088,7 +1089,7 @@ If you think this looks better you can add padding left and right to the AnchorP
 
 ### 4.2.13. DO NOT FORGET: Final module-info.java version
 
-Finally correct ```module-info.java``` to the following, to correctly export and import the packages and modules, otherwise you will not get rid of the many missing imports in various classes:
+Finally correct `module-info.java` to the following, to correctly export and import the packages and modules, otherwise you will not get rid of the many missing imports in various classes:
 
 ```java
 module org.hsd.inflab.se2fxclient {
@@ -1110,12 +1111,12 @@ module org.hsd.inflab.se2fxclient {
 
 # 5. Full stack test
 
-- Start the mysql database from within the XAMPP control panel or the docker container
-- Start the server class ```Application.java```
-- Start the JavaFx client ```App.java```
+- Start the mysql database from within the XAMPP control panel or the Docker container
+- Start the server class `Application.java`
+- Start the JavaFx client `App.java`
 - Create a Person
-- Rename it and click ```OK``` to submit
-- Delete a person with the ```Delete``` button
+- Rename it and click `OK` to submit
+- Delete a person with the `Delete` button
 - Check the database if all changes are correctly committed
 
 ![finaltest](images/eclipse32_final_test.png)
