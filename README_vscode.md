@@ -85,7 +85,7 @@ If you used either the XAMPP installer or the docker container to set up XAMPP y
 - click on "User accounts"
 - click on "Add user account"
 - insert a username and password
-- **IMPORTANT**: check "Create database with same name and grant all privileges." and "Grant all privileges on wildcard name (username\_%)." and "Check all"
+- **IMPORTANT**: check "Create database with same name and grant all privileges." and "Grant all privileges on wildcard name (username\_%)." and "Check all". The first option will generate a new database with the same name as your username.
 - don't change anything else
 - click "Go"
 
@@ -165,16 +165,17 @@ Here is a short video of all steps:
 
 Now that we've defined which external libraries we need, we need to set up our spring boot server application. 
 
-Open the file ```application.properties``` inside the ```src/main/resources``` package and insert the following properties and change DATABASENAME, USERNAME and PASSWORD to the values you've entered in 2.2.:
+Open the file `application.properties` inside the `src/main/resources` package and insert the following properties and change `DATABASENAME`, `USERNAME` and `PASSWORD` to the values you've entered in 2.2. The `DATABASENAME` is the equivalent to your `USERNAME`, given that you checked the mandatory box in step 2.2:
 
-    spring.jpa.hibernate.ddl-auto=create-drop
-    spring.datasource.url=jdbc:mysql://localhost:3306/DATABASENAME?serverTimezone=Europe/Berlin
-    spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
-    spring.datasource.username=USERNAME
-    spring.datasource.password=PASSWORD
-    spring.jackson.serialization.fail-on-empty-beans=false
-    spring.jpa.show-sql=true
-    
+```
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.datasource.url=jdbc:mysql://localhost:3306/DATABASENAME?serverTimezone=Europe/Berlin
+spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
+spring.datasource.username=USERNAME
+spring.datasource.password=PASSWORD
+spring.jackson.serialization.fail-on-empty-beans=false
+spring.jpa.show-sql=true
+```
 
 To make test our server we will have to execute it. **Make sure the database is running from within your XAMPP Docker!!!**
 
