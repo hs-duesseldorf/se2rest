@@ -1119,4 +1119,4 @@ module org.hsd.inflab.se2fxclient {
 - Delete a person with the `Delete` button
 - Check the database if all changes are correctly committed
 
-![finaltest](images/eclipse32_final_test.png)
+![finaltest](images/client_vs_code_22.png)
