@@ -1,6 +1,6 @@
 # 1. Introduction
 
-In this course we will build a JavaFX client app which can create the simplest form of users/persons with only one attribute (name) and send them to a Java server via HTTP. The server will digest those requests by either storing or getting the data in/from a MariaDB database.
+In this course we will build a very simple JavaFX client app which can create the simplest form of users/persons with only one attribute (name) and send them to a Java server via HTTP. The server will digest those requests by either storing or getting the data in/from a MariaDB database.
 
 We use Java, Maven, Spring Boot, and XAMPP for this. 
 
@@ -12,13 +12,11 @@ So please make sure you have a [Java 11 or 17 Development Kit](https://adoptium.
 
 *If you need help in setting up Java and VSCode please read the [software engineering 1 Java & VSCode tutorial (skip the Eclipse part)](https://github.com/hs-duesseldorf/software-engineering-1)*
 
-## 1.1. Nice-to-know / Download-Links
+## 1.1. Download-Links / Quick-install commands
 
 - [Open JDK](https://adoptium.net/)
 - [Visual Studio Code Java](https://code.visualstudio.com/docs/languages/java)
 - [Gluon Scene Builder](https://gluonhq.com/products/scene-builder)
-- [Annotationen](https://de.wikipedia.org/wiki/Annotation_(Java))
-- [Generics](https://de.wikipedia.org/wiki/Generische_Programmierung_in_Java)
 - [Maven](https://maven.apache.org/install.html)
   - Ubuntu users:
     - `sudo apt install maven`
@@ -31,19 +29,15 @@ So please make sure you have a [Java 11 or 17 Development Kit](https://adoptium.
         `choco install maven`
   - MacOs users:
     - `brew install maven`
-- [Spring Boot](https://spring.io/projects/spring-boot)
-- [HTTP](https://de.wikipedia.org/wiki/Hypertext_Transfer_Protocol) und [REST](https://de.wikipedia.org/wiki/Representational_State_Transfer)
-- [JavaFX](https://openjfx.io/)
-- [Java Moduls](https://openjdk.java.net/projects/jigsaw/quick-start)
-- [Singletons](https://de.wikibooks.org/wiki/Muster:_Java:_Singleton)
 
 ## 1.2. Learning Goals
 
-- Use Maven to access external Java libraries
-- Use abstract classes, abstract methods and generics to reduce code duplication
-- Get to know spring boot
-- Learn REST and most HTTP calls
-- Learn the basics of Java FX and Scene Builder
+- Use [Maven](https://en.wikipedia.org/wiki/Apache_Maven) to access external Java libraries
+- Use abstract classes, abstract methods and [generics](https://en.wikipedia.org/wiki/Generics_in_Java) to reduce code duplication
+- Get to know [Spring Boot](https://spring.io/projects/spring-boot)
+- Learn [REST](https://de.wikipedia.org/wiki/Representational_State_Transfer) and [HTTP](https://de.wikipedia.org/wiki/Hypertext_Transfer_Protocol) basics
+- Learn the basics of [JavaFX](https://openjfx.io/) and Scene Builder
+- Understand the use case for the [Singleton](https://en.wikipedia.org/wiki/Singleton_pattern) software design pattern
 
 # 2. Database
 
@@ -463,6 +457,20 @@ Type in **Y** and press enter:
 Click on **Open** which opens the client project in a new VSCode window, keep both VSCode windows opened:
 
 ![](images/client_vs_code_11.png)
+
+**Important:** Check that your installed java version matches with the java version in the pom.xml of your client:
+
+*For example for Java 17*
+
+##### Client pom.xml
+```xml
+...
+<properties>
+	<maven.compiler.source>17</maven.compiler.source>
+	<maven.compiler.target>17</maven.compiler.target>
+</properties>
+...
+```
 
 ### 4.1.3. Delete unwanted files
 
