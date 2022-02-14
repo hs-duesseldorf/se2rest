@@ -66,7 +66,7 @@ A very comfortable way of setting up a XAMPP installation is via a Docker contai
 - Install Docker via this official Docker Tutorial for Windows: https://docs.docker.com/docker-for-windows/install/
 - Install Docker Desktop via this official Docker Tutorial in MacOS: https://docs.docker.com/docker-for-mac/install/
 
-- Open up Docker Desktop or a command shell and run the following command:
+- Open up Docker Desktop or a POWERSHELL and run the following command:
     ```bash
     docker run -e TZ=Europe/Berlin --detach --tty -p 80:80 -p 3306:3306 --name xamppy-docker --mount "source=xamppy-docker-vol,destination=/opt/lampp/var/mysql/" tomsik68/xampp
     ```
