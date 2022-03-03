@@ -14,14 +14,33 @@ So please make sure you have a [Java 11 or 17 Development Kit](https://adoptium.
 
 ## 1.1. Download-Links / Quick-install commands
 
-- [Open JDK](https://adoptium.net/)
-- [Visual Studio Code Java](https://code.visualstudio.com/docs/languages/java)
-- [Gluon Scene Builder](https://gluonhq.com/products/scene-builder)
+- Java Open JDK 11 / 17
+  - Either via installer: [Open JDK](https://adoptium.net/)
+  - Or via winget (system-wide by default):
+    ```
+    winget install EclipseAdoptium.Temurin.17
+    ```
+- Visual Studio Code
+  - Either via installer: [Visual Studio Code Installer](https://code.visualstudio.com/)
+  - Or with winget system-wide:  
+    ```
+    winget install Microsoft.VisualStudioCode --scope machine
+    ```
+   - Or with winget as a user-only installation:  
+        ```
+        winget install Microsoft.VisualStudioCode
+        ```
+- Gluon Scene Builder
+  - Either via installer: [Gluon Scene Builder Installer](https://gluonhq.com/products/scene-builder)
+  - Or with winget (user only):
+    ```
+    winget install Gluon.SceneBuilder
+    ```
 - [Maven](https://maven.apache.org/install.html)
   - Ubuntu users:
     - `sudo apt install maven`
   - Windows users:
-    - open powershell (admin) and run:
+    - open powershell as administrator (right-click: open as administrator) and run:
         ```powershell
         Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
         ```
