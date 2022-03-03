@@ -12,42 +12,101 @@ like Intellij IDEA, NetBeans or [Eclipse](README_eclipse.md)!
 
 ## 1.1. Download-Links / Quick-install commands
 
+<details>
+<summary>WINDOWS</summary>
+
+- Winget for Windows 10 users: [LINK](https://www.microsoft.com/en-us/p/app-installer/9nblggh4nns1#activetab=pivot:overviewtab) (winget is installed in Windows 11 by default)   
 - Java Open JDK 17
-  - Either via installer: [Open JDK](https://adoptium.net/)
+  - Either via installer: [Adoptium Open JDK installer](https://adoptium.net/)
   - Or via winget (system-wide by default):
-    ```
-    winget install EclipseAdoptium.Temurin.17
-    ```
+      ```powershell
+      winget install EclipseAdoptium.Temurin.17
+      ```
 - Visual Studio Code
   - Either via installer: [Visual Studio Code Installer](https://code.visualstudio.com/)
   - Or with winget system-wide:  
     ```
     winget install Microsoft.VisualStudioCode --scope machine
     ```
-   - Or with winget as a user-only installation:  
-        ```
-        winget install Microsoft.VisualStudioCode
-        ```
+  - Or with winget as a user-only installation:  
+    ```powershell
+    winget install Microsoft.VisualStudioCode
+    ```
 - [VSCode Java extension pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
 - [VSCode Spring Boot extension pack](https://marketplace.visualstudio.com/items?itemName=Pivotal.vscode-boot-dev-pack)
 - Gluon Scene Builder
   - Either via installer: [Gluon Scene Builder Installer](https://gluonhq.com/products/scene-builder)
   - Or with winget (user only):
+      ```powershell
+      winget install Gluon.SceneBuilder
+      ```
+- [Maven](https://maven.apache.org/install.html)
+  - open powershell as administrator (right-click: open as administrator) and run:
+      ```powershell
+      Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+      ```
+  - Once the installation is completed, close the Powershell (Admin) or Terminal (Admin) and open it again and run:        
+      ```powershell
+      choco install maven
+      ```
+</details>
+
+<details>
+<summary>MACOS</summary>
+
+- Java Open JDK 17
+  - Either via installer: [Adoptium Open JDK installer](https://adoptium.net/)
+  - Or via brew:
     ```
-    winget install Gluon.SceneBuilder
+    
+    ```
+- Visual Studio Code
+  - Either via installer: [Visual Studio Code Installer](https://code.visualstudio.com/)
+  - Or via brew:  
+    ```
+    
+    ```
+- [VSCode Java extension pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
+- [VSCode Spring Boot extension pack](https://marketplace.visualstudio.com/items?itemName=Pivotal.vscode-boot-dev-pack)
+- Gluon Scene Builder
+  - Either via installer: [Gluon Scene Builder Installer](https://gluonhq.com/products/scene-builder)
+  - Or via brew:
+    ```
+    
     ```
 - [Maven](https://maven.apache.org/install.html)
-  - Ubuntu users:
-    - `sudo apt install maven`
-  - Windows users:
-    - open powershell as administrator (right-click: open as administrator) and run:
-        ```powershell
-        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-        ```
-    - Once the installation is completed, close the Powershell (Admin) or Terminal (Admin) and open it again and run:        
-        `choco install maven`
-  - MacOs users:
-    - `brew install maven`
+  - `brew install maven`
+</details>
+
+
+<details>
+<summary>UBUNTU</summary>
+
+- Java Open JDK 17
+  ```bash
+  sudo apt install openjdk-17-jdk
+  ```
+- Visual Studio Code
+  - Either via installer: [Visual Studio Code Installer](https://code.visualstudio.com/)
+  - Or via snap:  
+    ```bash
+    sudo snap install code --classic
+    ```
+- [VSCode Java extension pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
+- [VSCode Spring Boot extension pack](https://marketplace.visualstudio.com/items?itemName=Pivotal.vscode-boot-dev-pack)
+- Gluon Scene Builder
+  - via installer: [Gluon Scene Builder Installer](https://gluonhq.com/products/scene-builder)
+  - or via terminal:
+    ```bash
+    wget https://download2.gluonhq.com/scenebuilder/17.0.0/install/linux/SceneBuilder-17.0.0.deb
+    sudo dpkg -i SceneBuilder-17.0.0.deb
+    ```
+- [Maven](https://maven.apache.org/install.html) 
+  ```bash
+  sudo apt install maven
+  ```
+</details>
+
 
 ## 1.2. Learning Goals
 
