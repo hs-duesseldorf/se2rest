@@ -1,20 +1,18 @@
 # 1. Introduction
 
-In this course we will build a very simple JavaFX client app which can create the simplest form of users/persons with only one attribute (name) and send them to a Java server via HTTP. The server will digest those requests by either storing or getting the data in/from a MariaDB database.
+In this course we will build a very simple JavaFX client app which can create the simplest form of users/persons with only one attribute (name) which is sent to a Java server via HTTP. The server will digest those requests by either storing or getting the data in/from a MariaDB database.
 
 We use Java, Maven, Spring Boot, and XAMPP for this. 
 
 We use the development environment VSCode, but thanks to the modularity of
 Maven projects any other Java development environment could also be used
-like Intellij IDEA, NetBeans or Eclipse. However we will use VSCode + Maven here (If you want to work with Eclipse, please use [the Eclipse version of this course](README_eclipse.md))!
+like Intellij IDEA, NetBeans or [Eclipse](README_eclipse.md)!
 
-So please make sure you have a [Java 11 or 17 Development Kit](https://adoptium.net/), [VSCode](https://code.visualstudio.com/), [VSCode Java extension pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack), [VSCode Spring Boot extension pack](https://marketplace.visualstudio.com/items?itemName=Pivotal.vscode-boot-dev-pack), [Maven](#11-nice-to-know--download-links) and [Gluon Scene Builder](https://gluonhq.com/products/scene-builder/) installed **before you start with the database, server or client!**
-
-*If you need help in setting up Java and VSCode please read the [software engineering 1 Java & VSCode tutorial (skip the Eclipse part)](https://github.com/hs-duesseldorf/software-engineering-1)*
+**So please make sure you have *ALL* of the following software installed *BEFORE* you start with the database, server or client!**
 
 ## 1.1. Download-Links / Quick-install commands
 
-- Java Open JDK 11 / 17
+- Java Open JDK 17
   - Either via installer: [Open JDK](https://adoptium.net/)
   - Or via winget (system-wide by default):
     ```
@@ -30,6 +28,8 @@ So please make sure you have a [Java 11 or 17 Development Kit](https://adoptium.
         ```
         winget install Microsoft.VisualStudioCode
         ```
+- [VSCode Java extension pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
+- [VSCode Spring Boot extension pack](https://marketplace.visualstudio.com/items?itemName=Pivotal.vscode-boot-dev-pack)
 - Gluon Scene Builder
   - Either via installer: [Gluon Scene Builder Installer](https://gluonhq.com/products/scene-builder)
   - Or with winget (user only):
