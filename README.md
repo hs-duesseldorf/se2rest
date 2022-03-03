@@ -54,17 +54,23 @@ like Intellij IDEA, NetBeans or [Eclipse](README_eclipse.md)!
 <details>
 <summary>MACOS</summary>
 
+  - Homebrew (If wanted)
+    - If wanted you can use homebrew to complete the following installation steps. [Homebrew](https://brew.sh) is a unofficial package manager for macOS, which should help you with installing new software on your system. To get started with homebrew just paste the following command inside your terminal window:
+      ```
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      ```
+
 - Java Open JDK 17
   - Either via installer: [Adoptium Open JDK installer](https://adoptium.net/)
   - Or via brew:
     ```
-    
+    brew install --cask temurin
     ```
 - Visual Studio Code
   - Either via installer: [Visual Studio Code Installer](https://code.visualstudio.com/)
   - Or via brew:  
     ```
-    
+    brew install --cask visual-studio-code
     ```
 - [VSCode Java extension pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
 - [VSCode Spring Boot extension pack](https://marketplace.visualstudio.com/items?itemName=Pivotal.vscode-boot-dev-pack)
@@ -72,10 +78,14 @@ like Intellij IDEA, NetBeans or [Eclipse](README_eclipse.md)!
   - Either via installer: [Gluon Scene Builder Installer](https://gluonhq.com/products/scene-builder)
   - Or via brew:
     ```
-    
+    brew install --cask scenebuilder
     ```
-- [Maven](https://maven.apache.org/install.html)
-  - `brew install maven`
+- Maven
+  - Either manually using these setup instructions: [Maven - Installing](https://maven.apache.org/install.html)
+  - Or via brew:
+    ```
+    brew install maven
+    ```
 </details>
 
 
