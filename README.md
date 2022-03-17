@@ -224,7 +224,7 @@ Use `Jar` as the packaging type:
 
 ![](images/spring_init_08.png)
 
-Use Java 11 as the Java version, unless you have Java 17 installed, then use 17:
+Use Java 17 as the Java version, unless you have Java 11 installed, then use 11:
 
 ![](images/spring_init_09.png)
 
@@ -606,7 +606,7 @@ You might be asked if you want to synchronize your Java classpath/configuration 
 
 ## 4.2 Implementation
 
-**!!! IMPORTANT !!!**: Before you start with the implementation, make sure you have [GLUON SCENE BUILDER FOR JAVA 11](https://gluonhq.com/products/scene-builder/#download) installed to manipulate FXML files from within a graphical user interface!
+**!!! IMPORTANT !!!**: Before you start with the implementation, make sure you have [GLUON SCENE BUILDER VERSION 17](https://gluonhq.com/products/scene-builder/#download) installed to manipulate FXML files from within a graphical user interface!
 
 ### 4.2.1. Create package structure
 
