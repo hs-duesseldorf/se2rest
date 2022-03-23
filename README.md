@@ -790,7 +790,7 @@ To detach most of the code from the actual model object we want to receive, we w
 To reduce the amount of HTTPClient objects that are created, we will also use the singleton pattern for the `PersonRestController.java`.
 
 Since this class is a little bit bigger than previous ones, explanations can be found inside the source code as comments.
-
+So, create GenericRestService.java and PersonService.java inside the service package of your client with the following content:
 
 ```java
 package org.hsd.inflab.se2fxclient.service;
