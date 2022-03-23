@@ -261,7 +261,7 @@ spring.jpa.show-sql=true
 
 To test our server we will have to execute it. **Make sure the database is running from within your XAMPP Docker!!!**
 
-Open the Spring Boot panel on the left side and press the start button above your Spring Boot project `se2rest`:
+Open the Spring Boot panel on the left side and press the start button above your Spring Boot project `se2server` (even if this GIF shows the name `se2rest`):
 
 ![](images/spring_boot_run.gif)
 
