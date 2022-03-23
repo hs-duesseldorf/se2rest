@@ -681,7 +681,7 @@ public class App extends Application {
 
 We've loaded `PersonView.fxml` inside the `start()` method of `App.java` but this file doesn't exist yet. It is a XML file story just the hierarchy of our UI. SceneBuilder is an additional program alongside our IDE (Eclipse, VSCode, ...) that simplifies and visualizes the creation of such FXML files.
 
-Open SceneBuilder and create a new file, drag and drop the container `BorderPane` out of the left panel (section `Containers`) onto the drawing area and save the file afterwards into the directory where your se2rest project is on your computer into the package `se2fxclient/src/main/resources/org/hsd/inflab/se2fxclient/view` with the file name `PersonView.fxml`
+Open SceneBuilder and create a new file, drag and drop the container `BorderPane` out of the left panel (section `Containers`) onto the drawing area and save the file afterwards into the directory where your se2fxclient project is on your computer into the package `se2fxclient/src/main/resources/org/hsd/inflab/se2fxclient/view` with the file name `PersonView.fxml`
 
 ![newfxml](images/eclipse23_new_fxml.png)
 
