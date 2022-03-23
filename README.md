@@ -790,7 +790,7 @@ To detach most of the code from the actual model object we want to receive, we w
 To reduce the amount of HTTPClient objects that are created, we will also use the singleton pattern for the `PersonRestController.java`.
 
 Since this class is a little bit bigger than previous ones, explanations can be found inside the source code as comments.
-So, create GenericRestService.java and PersonService.java inside the service package of your client with the following content:
+So, create `GenericRestService.java` inside the service package of your client with the following content:
 
 ```java
 package org.hsd.inflab.se2fxclient.service;
@@ -977,6 +977,8 @@ Since the `GenericRestService` already included all HTTP Calls, we only need to 
 
 To be very sure that only one instance of each RestService exists in the memory of our computers, we will use the thread safe singleton pattern here. For this the constructor is set to private and a synchronized static `getInstance()` method can be called outside of this class. This method creates one new instance of itself on call if no instance exists, otherwise it returns a reference of the one already existing instance.
 
+Create `PersonRestService.java` inside the service package of your client with the following content:
+
 ```java
 package org.hsd.inflab.se2fxclient.service;
 
@@ -1028,6 +1030,7 @@ The UI representation of a person will be put into `FxPerson.java` which will be
 The name `TextField` contains the value of the name, the OK button calls the update and the delete button the delete methods of the `PersonRestService`.
 
 As a bit of stylistic sugar, we make all UI elements a little bit rounder at the edges within the `applyStyling()` method :)
+Create `FxPerson.java` inside your view package of your client with the following content:
 
 ```java
 package org.hsd.inflab.se2fxclient.view;
@@ -1089,6 +1092,8 @@ public class FxPerson extends HBox {
 ### 4.2.9. The controller class
 
 The controller class includes the FXML method `initialize()` which is called when the UI is created. Here we set the reference to a new `PersonRestService` instance.  We check if the connection is working - if so we create `FxPerson` objects for each person in the database.
+
+Create `PersonController.java` inside the controller package of your client with the following content:
 
 ```java
 package org.hsd.inflab.se2fxclient.controller;
