@@ -546,7 +546,7 @@ Click on **Open** which opens the client project in a new VSCode window, keep bo
 
 ![](images/client_vs_code_11.png)
 
-**Important:** Check that your installed java version matches with the java version in the pom.xml of your client:
+**Important:** Check that your installed java version matches with the java version in the pom.xml of your **client**:
 
 *For example for Java 17*
 
@@ -559,6 +559,18 @@ Click on **Open** which opens the client project in a new VSCode window, keep bo
 </properties>
 ...
 ```
+
+For the **server**:
+
+```xml
+...
+<properties>
+    <java.version>17</java.version>
+</properties>
+...
+```
+
+Also for the server, if you use java17 please check that the springframework parent version is greater or atleast equal to 2.6.5
 
 ### 4.1.3. Delete unwanted files
 
