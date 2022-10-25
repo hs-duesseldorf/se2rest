@@ -20,7 +20,7 @@ like Intellij IDEA, NetBeans or [Eclipse](README_eclipse.md)!
   - Either via installer: [Adoptium Open JDK installer](https://adoptium.net/)
   - Or via winget (system-wide by default):
       ```powershell
-      winget install EclipseAdoptium.Temurin.17
+      winget install EclipseAdoptium.Temurin.17.JDK
       ```
 - Visual Studio Code
   - Either via installer: [Visual Studio Code Installer](https://code.visualstudio.com/)
