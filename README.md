@@ -204,7 +204,7 @@ In either case **now** select "Spring Boot" and then "Maven Project" as your spr
 
 ![](images/spring_init_03.png)
 
-Use the most recent version:
+Use the most recent version, by April 2023 this should be **3.0.2**:
 
 ![](images/spring_init_04.png)
 
@@ -285,6 +285,8 @@ create the following packages/folders:
 
 ### 3.2.2. Entities
 
+**VERY IMPORTANT**: if you use a major spring version lower than 3, replace all occurrences of `jakarta.persistence` with `javax.persistence` in your import commands. 
+
 Now `spring-boot-starter-data-jpa` comes into play. With it a copy of hibernate is downloaded. Hibernate is an implementation of the **J**ava **P**ersistence API (JPA) and can process special types of classes named **Entities**. Each entity refers to one table inside our database and each attribute of this entity refers to a column inside this table. Hibernate is smart enough so it can even create tables just from looking onto our entity classes.
 
 The Java Persistence API and thus hibernate work with annotations. When you want to declare a Java class as an entity, you simply put the `@Entity` tag above the class declaration. Now all attributes are already understood as individual columns when they are primitive data types such as for example int and String.
@@ -302,10 +304,10 @@ package org.hsd.inflab.se2server.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
@@ -333,7 +335,7 @@ public abstract class AbstractEntity implements Serializable {
 ```java
 package org.hsd.inflab.se2server.entity;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 @Entity
 public class Person extends AbstractEntity {
@@ -433,7 +435,7 @@ public abstract class GenericRestController<E extends AbstractEntity> {
     
 	@GetMapping("{id}") // HTTP GET
 	public E get(@PathVariable(value = "id") long id) {
-        return repository.getById(id);
+        return repository.getReferenceById(id);
     }
     
     @PutMapping("{id}") // HTTP PUT
