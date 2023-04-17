@@ -131,7 +131,7 @@ like Intellij IDEA, NetBeans or [Eclipse](README_eclipse.md)!
 
 ## 2.1. Install XAMPP
 
-A very comfortable way of setting up a XAMPP installation is via a Docker container. In Windows you need to have either Windows 10 Enterprise, Pro or Education installed (Windows Home is not enough).
+A very comfortable way of setting up a XAMPP installation is via a Docker container.
 
 #### 2.1.1 Install Docker in Ubuntu
 
